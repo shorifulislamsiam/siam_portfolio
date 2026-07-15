@@ -1,0 +1,58 @@
+name: siam_portfolio
+description: "Siam's Professional Flutter Developer Portfolio"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # State Management
+  get: ^4.6.6
+
+  # Fonts
+  google_fonts: ^6.2.1
+
+  # Animations
+  animated_text_kit: ^4.2.2
+  flutter_animate: ^4.5.0
+
+  # Network & URL
+  url_launcher: ^6.3.1
+  http: ^1.2.2
+
+  # Visibility detection for scroll animations
+  visibility_detector: ^0.4.0+2
+
+  # SVG support
+  flutter_svg: ^2.0.10+1
+
+  # Storage (used by existing template)
+  shared_preferences: ^2.3.3
+
+  # Logging (used by existing template)
+  logger: ^2.5.0
+
+  # Shimmer (used by existing template)
+  shimmer: ^3.0.0
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/lottie/
+    - assets/svg/
