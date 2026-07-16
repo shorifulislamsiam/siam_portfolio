@@ -21,10 +21,7 @@ class ProjectsSection extends GetView<HomeController> {
     return PortfolioSectionWrapper(
       child: Column(
         children: [
-          const PortfolioSectionTitle(
-            title: 'Projects',
-            subtitle: 'My Work',
-          ),
+          const PortfolioSectionTitle(title: 'Projects', subtitle: 'My Work'),
           const SizedBox(height: 32),
 
           // Category filter chips
@@ -46,26 +43,39 @@ class ProjectsSection extends GetView<HomeController> {
           ),
           const SizedBox(height: 40),
 
-          // Project grid
-          Obx(() {
-            final cols = ResponsiveHelper.gridColumns(context,
-                mobile: 1, tablet: 2, desktop: 3);
-            final projects = controller.filteredProjects;
+          // Project grid — Wrap-based so cards size to their content
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final cols = ResponsiveHelper.gridColumns(
+                context,
+                mobile: 1,
+                tablet: 2,
+                desktop: 3,
+              );
+              final totalSpacing = 24.0 * (cols - 1);
+              final cardWidth =
+                  (constraints.maxWidth - totalSpacing) / cols;
 
-            return GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: cols,
-                crossAxisSpacing: 24,
-                mainAxisSpacing: 24,
-                mainAxisExtent: 420,
-              ),
-              itemCount: projects.length,
-              itemBuilder: (_, i) =>
-                  _ProjectCard(project: projects[i], delay: i * 80),
-            );
-          }),
+              return Obx(() {
+                final projects = controller.filteredProjects;
+
+                return Wrap(
+                  spacing: 24,
+                  runSpacing: 24,
+                  children: List.generate(
+                    projects.length,
+                    (i) => SizedBox(
+                      width: cardWidth,
+                      child: _ProjectCard(
+                        project: projects[i],
+                        delay: i * 80,
+                      ),
+                    ),
+                  ),
+                );
+              });
+            },
+          ),
         ],
       ),
     );
@@ -121,12 +131,10 @@ class _ProjectCard extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Get.toNamed(
-        AppStringRoutes.projectDetail,
-        arguments: project,
-      ),
-      child: _HoverProjectCard(project: project, controller: controller),
-    )
+          onTap: () =>
+              Get.toNamed(AppStringRoutes.projectDetail, arguments: project),
+          child: _HoverProjectCard(project: project, controller: controller),
+        )
         .animate(delay: Duration(milliseconds: delay))
         .fadeIn(duration: 500.ms)
         .slideY(begin: 0.15, end: 0);
@@ -136,10 +144,7 @@ class _ProjectCard extends GetView<HomeController> {
 class _HoverProjectCard extends StatefulWidget {
   final ProjectModel project;
   final HomeController controller;
-  const _HoverProjectCard({
-    required this.project,
-    required this.controller,
-  });
+  const _HoverProjectCard({required this.project, required this.controller});
 
   @override
   State<_HoverProjectCard> createState() => _HoverProjectCardState();
@@ -147,6 +152,14 @@ class _HoverProjectCard extends StatefulWidget {
 
 class _HoverProjectCardState extends State<_HoverProjectCard> {
   bool _hovered = false;
+
+  bool get _hasGithub =>
+      widget.project.githubUrl != null &&
+      widget.project.githubUrl!.isNotEmpty;
+
+  bool get _hasLiveDemo =>
+      widget.project.liveDemoUrl != null &&
+      widget.project.liveDemoUrl!.isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -178,47 +191,54 @@ class _HoverProjectCardState extends State<_HoverProjectCard> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             // Project image / placeholder
             ClipRRect(
-              borderRadius: const BorderRadius.vertical(
+              borderRadius: BorderRadius.vertical(
                 top: Radius.circular(AppDimensions.cardRadius),
               ),
-              child: Container(
-                height: 160,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Color(0xFF25233E), Color(0xFF1A1A2E)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Color(0xFF25233E), Color(0xFF1A1A2E)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
                   ),
-                ),
-                child: Center(
-                  child: Icon(
-                    Icons.folder_open_rounded,
-                    size: 48,
-                    color: const Color(0xFF818CF8).withAlpha(80),
+                  child: Center(
+                    child: Icon(
+                      Icons.folder_open_rounded,
+                      size: 48,
+                      color: const Color(0xFF818CF8).withAlpha(80),
+                    ),
                   ),
                 ),
               ),
             ),
 
+            // Content section — no fixed height, sizes to content
             Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   // Featured badge
                   if (widget.project.isFeatured) ...[
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 3),
+                        horizontal: 8,
+                        vertical: 3,
+                      ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFDFAA26).withAlpha(20),
                         borderRadius: BorderRadius.circular(100),
                         border: Border.all(
-                            color: const Color(0xFFDFAA26).withAlpha(60)),
+                          color: const Color(0xFFDFAA26).withAlpha(60),
+                        ),
                       ),
                       child: Text(
                         '⭐ Featured',
@@ -231,7 +251,6 @@ class _HoverProjectCardState extends State<_HoverProjectCard> {
                     ),
                     const SizedBox(height: 8),
                   ],
-
                   Text(
                     widget.project.title,
                     style: GoogleFonts.outfit(
@@ -260,35 +279,30 @@ class _HoverProjectCardState extends State<_HoverProjectCard> {
                         .map((t) => _TechTag(label: t))
                         .toList(),
                   ),
-                  const SizedBox(height: 12),
-                  // Action buttons
-                  Row(
-                    children: [
-                      if (widget.project.githubUrl != null)
-                        Expanded(
-                          child: PortfolioPrimaryButton(
-                            label: AppStrings.sourceCode,
-                            icon: Icons.code_rounded,
-                            isOutline: true,
-                            onTap: () => widget.controller
-                                .launchURL(widget.project.githubUrl!),
-                          ),
+
+                  // Buttons — only rendered when URLs exist, no extra space otherwise
+                  if (_hasGithub || _hasLiveDemo) ...[
+                    const SizedBox(height: 16),
+                    if (_hasGithub)
+                      PortfolioPrimaryButton(
+                        label: AppStrings.sourceCode,
+                        icon: Icons.code_rounded,
+                        isOutline: true,
+                        onTap: () => widget.controller.launchURL(
+                          widget.project.githubUrl!,
                         ),
-                      if (widget.project.githubUrl != null &&
-                          widget.project.liveDemoUrl != null)
-                        const SizedBox(width: 8),
-                      if (widget.project.liveDemoUrl != null &&
-                          widget.project.liveDemoUrl!.isNotEmpty)
-                        Expanded(
-                          child: PortfolioPrimaryButton(
-                            label: AppStrings.liveDemo,
-                            icon: Icons.open_in_new_rounded,
-                            onTap: () => widget.controller
-                                .launchURL(widget.project.liveDemoUrl!),
-                          ),
+                      ),
+                    if (_hasGithub && _hasLiveDemo)
+                      const SizedBox(height: 8),
+                    if (_hasLiveDemo)
+                      PortfolioPrimaryButton(
+                        label: AppStrings.liveDemo,
+                        icon: Icons.open_in_new_rounded,
+                        onTap: () => widget.controller.launchURL(
+                          widget.project.liveDemoUrl!,
                         ),
-                    ],
-                  ),
+                      ),
+                  ],
                 ],
               ),
             ),
