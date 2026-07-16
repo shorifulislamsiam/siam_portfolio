@@ -5,17 +5,20 @@ class AppStrings {
 
   // ── Personal Info ──────────────────────────────────────────────────────────
   static const String name = 'Siam';
-  static const String fullName = 'MD. Siam';
+  static const String fullName = 'Shoriful Islam Siam';
   static const String designation = 'Flutter Developer';
   static const String tagline = 'Building beautiful cross-platform experiences';
-  static const String email = 'siam@example.com';
-  static const String phone = '+880 1XXX-XXXXXX';
+  static const String email = 'shorifulislamsiam18@gmail.com';
+  static const String phone = '+880 1711111111';
   static const String location = 'Dhaka, Bangladesh';
 
   // ── Social Links ───────────────────────────────────────────────────────────
-  static const String githubUrl = 'https://github.com/siam';
-  static const String linkedinUrl = 'https://linkedin.com/in/siam';
-  static const String facebookUrl = 'https://facebook.com/siam';
+  static const String githubUrl = 'https://github.com/shorifulislamsiam';
+  static const String linkedinUrl =
+      'https://www.linkedin.com/in/shoriful-islam-siam-42b5b723b/';
+  //static const String facebookUrl = 'https://www.facebook.com/shorifulislam.siam.940';
+  static const String facebookUrl =
+      'https://github.com/siamislam@softvence.com';
 
   // ── Bio ────────────────────────────────────────────────────────────────────
   static const String bio =
@@ -26,8 +29,8 @@ class AppStrings {
 
   static const String about =
       'A self-driven Flutter developer with hands-on experience building '
-      'production-ready applications for Android, iOS, and the Web. '
-      'I specialise in GetX, clean architecture, and creating pixel-perfect '
+      'production-ready applications for Android, iOS. '
+      'I specialise in GetX, MVVM, and creating pixel-perfect '
       'responsive UIs. I am always learning and love open-source collaboration.';
 
   // ── Section Titles ─────────────────────────────────────────────────────────
@@ -61,9 +64,9 @@ class AppStrings {
   static const List<String> typingTexts = [
     'Flutter Developer',
     'Mobile App Developer',
-    'UI/UX Enthusiast',
+    'Pixel Perfect UI/UX',
     'Open Source Contributor',
-    'Cross-Platform Engineer',
+    //'Cross-Platform Engineer',
   ];
 
   // ── Buttons ────────────────────────────────────────────────────────────────
@@ -83,10 +86,11 @@ class AppStrings {
   static const String contactMessageHint = 'Your Message';
 
   // ── Footer ─────────────────────────────────────────────────────────────────
-  static const String copyright = '© 2025 Siam. All rights reserved.';
+  static const String copyright =
+      '© 2025 shoriful islam siam. All rights reserved.';
   static const String madeWith = 'Made with ❤️ using Flutter';
 
   // ── Resume URL ─────────────────────────────────────────────────────────────
   static const String resumeUrl =
-      'https://drive.google.com/your-resume-link-here';
+      'https://drive.google.com/file/d/1TRXnkkPTlqZthpRPWSZDCv0dFweqVQmL/view?usp=sharing';
 }

@@ -69,14 +69,18 @@ class PortfolioDrawer extends GetView<HomeController> {
             ),
           ),
 
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
 
-          // Nav items
-          ..._buildNavItems(context),
+          // Nav items — scrollable so they never overflow on small screens
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: _buildNavItems(context),
+            ),
+          ),
 
-          const Spacer(),
-
-          // Theme toggle
+          // Theme toggle pinned at bottom
+          const Divider(color: Colors.white12, height: 1),
           ListTile(
             leading: Icon(
               Theme.of(context).brightness == Brightness.dark
@@ -98,7 +102,7 @@ class PortfolioDrawer extends GetView<HomeController> {
               Get.changeThemeMode(isDark ? ThemeMode.light : ThemeMode.dark);
             },
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: MediaQuery.of(context).padding.bottom + 8),
         ],
       ),
     );

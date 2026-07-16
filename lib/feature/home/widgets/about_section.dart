@@ -18,10 +18,7 @@ class AboutSection extends GetView<HomeController> {
       backgroundColor: const Color(0xFF0A0A1A),
       child: Column(
         children: [
-          const PortfolioSectionTitle(
-            title: 'About Me',
-            subtitle: 'Who I Am',
-          ),
+          const PortfolioSectionTitle(title: 'About Me', subtitle: 'Who I Am'),
           const SizedBox(height: 48),
           ResponsiveHelper.isDesktopOrLarger(context)
               ? _DesktopAbout()
@@ -36,11 +33,7 @@ class _MobileAbout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        _AboutText(),
-        const SizedBox(height: 40),
-        _InfoGrid(),
-      ],
+      children: [_AboutText(), const SizedBox(height: 40), _InfoGrid()],
     );
   }
 }
@@ -133,8 +126,8 @@ class _InfoGrid extends StatelessWidget {
     ('Email', AppStrings.email),
     ('Phone', AppStrings.phone),
     ('Location', AppStrings.location),
-    ('Degree', 'B.Sc. in CSE'),
-    ('Experience', '2+ Years'),
+    ('Education', 'B.Sc. in CSE (Running)'),
+    ('Experience', '1 year (Including Internships)'),
   ];
 
   @override
@@ -171,39 +164,37 @@ class _InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 200,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: const Color(0xFF1E1F3A).withAlpha(80),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: const Color(0xFF818CF8).withAlpha(30),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: GoogleFonts.inter(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: const Color(0xFF818CF8),
-              letterSpacing: 1.5,
-            ),
+          width: 200,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: const Color(0xFF1E1F3A).withAlpha(80),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: const Color(0xFF818CF8).withAlpha(30)),
           ),
-          const SizedBox(height: 6),
-          Text(
-            value,
-            style: GoogleFonts.inter(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              color: Colors.white.withAlpha(200),
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: GoogleFonts.inter(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w600,
+                  color: const Color(0xFF818CF8),
+                  letterSpacing: 1.5,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                value,
+                style: GoogleFonts.inter(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white.withAlpha(200),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    )
+        )
         .animate(delay: Duration(milliseconds: delay))
         .fadeIn(duration: 500.ms)
         .slideY(begin: 0.2, end: 0);

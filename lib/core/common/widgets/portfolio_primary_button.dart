@@ -88,14 +88,17 @@ class _PortfolioPrimaryButtonState extends State<PortfolioPrimaryButton> {
                   ),
                   const SizedBox(width: AppDimensions.spacingSm),
                 ],
-                Text(
-                  widget.label,
-                  style: GoogleFonts.inter(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: widget.isOutline
-                        ? const Color(0xFF818CF8)
-                        : Colors.white,
+                Flexible(
+                  child: Text(
+                    widget.label,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.inter(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: widget.isOutline
+                          ? const Color(0xFF818CF8)
+                          : Colors.white,
+                    ),
                   ),
                 ),
               ],
