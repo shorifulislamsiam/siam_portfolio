@@ -116,12 +116,16 @@ class _ServiceCardState extends State<_ServiceCard> {
               ),
             ),
             const SizedBox(height: 8),
-            Text(
-              widget.service.description,
-              style: GoogleFonts.inter(
-                fontSize: 13,
-                color: Colors.white.withAlpha(140),
-                height: 1.6,
+            Flexible(
+              child: Text(
+                widget.service.description,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 4,
+                style: GoogleFonts.inter(
+                  fontSize: 13,
+                  color: Colors.white.withAlpha(140),
+                  height: 1.6,
+                ),
               ),
             ),
           ],

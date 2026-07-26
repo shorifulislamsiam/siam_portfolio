@@ -48,16 +48,29 @@ class _TimelineCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Timeline dot + line
-          SizedBox(
-            width: 40,
-            child: Column(
-              children: [
-                Container(
+    return Stack(
+      children: [
+        // Timeline line drawn behind the content
+        if (!isLast)
+          Positioned(
+            left: 20 - AppDimensions.timelineLineWidth / 2,
+            top: AppDimensions.timelineDotSize,
+            bottom: 0,
+            child: Container(
+              width: AppDimensions.timelineLineWidth,
+              color: const Color(0xFF818CF8).withAlpha(40),
+            ),
+          ),
+        // Main row content
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Timeline dot
+            SizedBox(
+              width: 40,
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Container(
                   width: AppDimensions.timelineDotSize,
                   height: AppDimensions.timelineDotSize,
                   decoration: BoxDecoration(
@@ -71,115 +84,111 @@ class _TimelineCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (!isLast)
-                  Expanded(
-                    child: Container(
-                      width: AppDimensions.timelineLineWidth,
-                      color: const Color(0xFF818CF8).withAlpha(40),
+              ),
+            ),
+
+            const SizedBox(width: 20),
+
+            // Content
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(bottom: isLast ? 0 : 32),
+                child: Container(
+                  padding: const EdgeInsets.all(AppDimensions.cardPadding),
+                  margin: const EdgeInsets.only(bottom: 4),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1E1F3A).withAlpha(60),
+                    borderRadius:
+                        BorderRadius.circular(AppDimensions.cardRadius),
+                    border: Border.all(
+                      color: const Color(0xFF818CF8).withAlpha(30),
                     ),
                   ),
-              ],
-            ),
-          ),
-
-          const SizedBox(width: 20),
-
-          // Content
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(bottom: isLast ? 0 : 32),
-              child: Container(
-                padding: const EdgeInsets.all(AppDimensions.cardPadding),
-                margin: const EdgeInsets.only(bottom: 4),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF1E1F3A).withAlpha(60),
-                  borderRadius: BorderRadius.circular(AppDimensions.cardRadius),
-                  border: Border.all(
-                    color: const Color(0xFF818CF8).withAlpha(30),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Header row
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 4,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        Text(
-                          experience.position,
-                          style: GoogleFonts.outfit(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        ),
-                        if (experience.isCurrent)
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 2),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF34D399).withAlpha(25),
-                              borderRadius: BorderRadius.circular(100),
-                              border: Border.all(
-                                  color: const Color(0xFF34D399).withAlpha(60)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Header row
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 4,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: [
+                          Text(
+                            experience.position,
+                            style: GoogleFonts.outfit(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
                             ),
-                            child: Text(
-                              'Current',
-                              style: GoogleFonts.inter(
-                                fontSize: 11,
-                                color: const Color(0xFF34D399),
-                                fontWeight: FontWeight.w500,
+                          ),
+                          if (experience.isCurrent)
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF34D399).withAlpha(25),
+                                borderRadius: BorderRadius.circular(100),
+                                border: Border.all(
+                                    color:
+                                        const Color(0xFF34D399).withAlpha(60)),
+                              ),
+                              child: Text(
+                                'Current',
+                                style: GoogleFonts.inter(
+                                  fontSize: 11,
+                                  color: const Color(0xFF34D399),
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
-                          ),
-                      ],
-                    ),
+                        ],
+                      ),
 
-                    const SizedBox(height: 4),
-                    Text(
-                      experience.company,
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        color: const Color(0xFF818CF8),
-                        fontWeight: FontWeight.w500,
+                      const SizedBox(height: 4),
+                      Text(
+                        experience.company,
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          color: const Color(0xFF818CF8),
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      experience.duration,
-                      style: GoogleFonts.inter(
-                        fontSize: 12,
-                        color: Colors.white.withAlpha(100),
+                      const SizedBox(height: 4),
+                      Text(
+                        experience.duration,
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          color: Colors.white.withAlpha(100),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      experience.description,
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        color: Colors.white.withAlpha(160),
-                        height: 1.7,
+                      const SizedBox(height: 12),
+                      Text(
+                        experience.description,
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          color: Colors.white.withAlpha(160),
+                          height: 1.7,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 12),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 6,
-                      children: experience.technologies
-                          .map(
-                            (tech) => _TechChip(label: tech),
-                          )
-                          .toList(),
-                    ),
-                  ],
+                      const SizedBox(height: 12),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 6,
+                        children: experience.technologies
+                            .map(
+                              (tech) => _TechChip(label: tech),
+                            )
+                            .toList(),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      ],
     )
         .animate(delay: Duration(milliseconds: delay))
         .fadeIn(duration: 600.ms)

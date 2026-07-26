@@ -49,15 +49,28 @@ class _EducationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(
-            width: 40,
-            child: Column(
-              children: [
-                Container(
+    return Stack(
+      children: [
+        // Timeline line drawn behind the content
+        if (!isLast)
+          Positioned(
+            left: 20 - AppDimensions.timelineLineWidth / 2,
+            top: AppDimensions.timelineDotSize,
+            bottom: 0,
+            child: Container(
+              width: AppDimensions.timelineLineWidth,
+              color: const Color(0xFFA78BFA).withAlpha(40),
+            ),
+          ),
+        // Main row content
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 40,
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Container(
                   width: AppDimensions.timelineDotSize,
                   height: AppDimensions.timelineDotSize,
                   decoration: BoxDecoration(
@@ -69,96 +82,91 @@ class _EducationCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (!isLast)
-                  Expanded(
-                    child: Container(
-                      width: AppDimensions.timelineLineWidth,
-                      color: const Color(0xFFA78BFA).withAlpha(40),
-                    ),
-                  ),
-              ],
+              ),
             ),
-          ),
-          const SizedBox(width: 20),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(bottom: isLast ? 0 : 32),
-              child: Container(
-                padding: const EdgeInsets.all(AppDimensions.cardPadding),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF1E1F3A).withAlpha(60),
-                  borderRadius: BorderRadius.circular(AppDimensions.cardRadius),
-                  border: Border.all(
-                    color: const Color(0xFFA78BFA).withAlpha(30),
+            const SizedBox(width: 20),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(bottom: isLast ? 0 : 32),
+                child: Container(
+                  padding: const EdgeInsets.all(AppDimensions.cardPadding),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1E1F3A).withAlpha(60),
+                    borderRadius:
+                        BorderRadius.circular(AppDimensions.cardRadius),
+                    border: Border.all(
+                      color: const Color(0xFFA78BFA).withAlpha(30),
+                    ),
                   ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      edu.degree,
-                      style: GoogleFonts.outfit(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      edu.institution,
-                      style: GoogleFonts.inter(
-                        fontSize: 14,
-                        color: const Color(0xFFA78BFA),
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      '${edu.field} • ${edu.duration}',
-                      style: GoogleFonts.inter(
-                        fontSize: 12,
-                        color: Colors.white.withAlpha(100),
-                      ),
-                    ),
-                    if (edu.cgpa != null) ...[
-                      const SizedBox(height: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFDFAA26).withAlpha(20),
-                          borderRadius: BorderRadius.circular(100),
-                          border: Border.all(
-                              color: const Color(0xFFDFAA26).withAlpha(60)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        edu.degree,
+                        style: GoogleFonts.outfit(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
                         ),
-                        child: Text(
-                          'CGPA: ${edu.cgpa}',
-                          style: GoogleFonts.inter(
-                            fontSize: 12,
-                            color: const Color(0xFFDFAA26),
-                            fontWeight: FontWeight.w600,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        edu.institution,
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          color: const Color(0xFFA78BFA),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '${edu.field} • ${edu.duration}',
+                        style: GoogleFonts.inter(
+                          fontSize: 12,
+                          color: Colors.white.withAlpha(100),
+                        ),
+                      ),
+                      if (edu.cgpa != null) ...[
+                        const SizedBox(height: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFDFAA26).withAlpha(20),
+                            borderRadius: BorderRadius.circular(100),
+                            border: Border.all(
+                                color: const Color(0xFFDFAA26).withAlpha(60)),
+                          ),
+                          child: Text(
+                            'CGPA: ${edu.cgpa}',
+                            style: GoogleFonts.inter(
+                              fontSize: 12,
+                              color: const Color(0xFFDFAA26),
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                    if (edu.description != null) ...[
-                      const SizedBox(height: 10),
-                      Text(
-                        edu.description!,
-                        style: GoogleFonts.inter(
-                          fontSize: 13,
-                          color: Colors.white.withAlpha(140),
-                          height: 1.6,
+                      ],
+                      if (edu.description != null) ...[
+                        const SizedBox(height: 10),
+                        Text(
+                          edu.description!,
+                          style: GoogleFonts.inter(
+                            fontSize: 13,
+                            color: Colors.white.withAlpha(140),
+                            height: 1.6,
+                          ),
                         ),
-                      ),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      ],
     )
         .animate(delay: Duration(milliseconds: delay))
         .fadeIn(duration: 600.ms)
