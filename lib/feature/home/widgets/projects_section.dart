@@ -52,6 +52,7 @@ class ProjectsSection extends GetView<HomeController> {
                 tablet: 2,
                 desktop: 3,
               );
+              final isMobile = cols == 1;
               final totalSpacing = 24.0 * (cols - 1);
               final cardWidth =
                   (constraints.maxWidth - totalSpacing) / cols;
@@ -66,9 +67,12 @@ class ProjectsSection extends GetView<HomeController> {
                     projects.length,
                     (i) => SizedBox(
                       width: cardWidth,
+                      // On wider screens, fix height so all cards match
+                      height: isMobile ? null : 480,
                       child: _ProjectCard(
                         project: projects[i],
                         delay: i * 80,
+                        equalHeight: !isMobile,
                       ),
                     ),
                   ),
@@ -125,15 +129,24 @@ class _FilterChip extends StatelessWidget {
 class _ProjectCard extends GetView<HomeController> {
   final ProjectModel project;
   final int delay;
+  final bool equalHeight;
 
-  const _ProjectCard({required this.project, required this.delay});
+  const _ProjectCard({
+    required this.project,
+    required this.delay,
+    this.equalHeight = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
           onTap: () =>
               Get.toNamed(AppStringRoutes.projectDetail, arguments: project),
-          child: _HoverProjectCard(project: project, controller: controller),
+          child: _HoverProjectCard(
+            project: project,
+            controller: controller,
+            equalHeight: equalHeight,
+          ),
         )
         .animate(delay: Duration(milliseconds: delay))
         .fadeIn(duration: 500.ms)
@@ -144,7 +157,12 @@ class _ProjectCard extends GetView<HomeController> {
 class _HoverProjectCard extends StatefulWidget {
   final ProjectModel project;
   final HomeController controller;
-  const _HoverProjectCard({required this.project, required this.controller});
+  final bool equalHeight;
+  const _HoverProjectCard({
+    required this.project,
+    required this.controller,
+    this.equalHeight = false,
+  });
 
   @override
   State<_HoverProjectCard> createState() => _HoverProjectCardState();
@@ -191,7 +209,10 @@ class _HoverProjectCardState extends State<_HoverProjectCard> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
+          // When equalHeight, stretch to fill the fixed-height parent
+          mainAxisSize: widget.equalHeight
+              ? MainAxisSize.max
+              : MainAxisSize.min,
           children: [
             // Project image / placeholder
             ClipRRect(
@@ -219,97 +240,116 @@ class _HoverProjectCardState extends State<_HoverProjectCard> {
               ),
             ),
 
-            // Content section — no fixed height, sizes to content
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Featured badge
-                  if (widget.project.isFeatured) ...[
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 3,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFDFAA26).withAlpha(20),
-                        borderRadius: BorderRadius.circular(100),
-                        border: Border.all(
-                          color: const Color(0xFFDFAA26).withAlpha(60),
-                        ),
-                      ),
-                      child: Text(
-                        '⭐ Featured',
-                        style: GoogleFonts.inter(
-                          fontSize: 10,
-                          color: const Color(0xFFDFAA26),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                  ],
-                  Text(
-                    widget.project.title,
-                    style: GoogleFonts.outfit(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(
-                    widget.project.description,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: GoogleFonts.inter(
-                      fontSize: 12,
-                      color: Colors.white.withAlpha(140),
-                      height: 1.6,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Wrap(
-                    spacing: 6,
-                    runSpacing: 4,
-                    children: widget.project.technologies
-                        .take(3)
-                        .map((t) => _TechTag(label: t))
-                        .toList(),
-                  ),
-
-                  // Buttons — only rendered when URLs exist, no extra space otherwise
-                  if (_hasGithub || _hasLiveDemo) ...[
-                    const SizedBox(height: 16),
-                    if (_hasGithub)
-                      PortfolioPrimaryButton(
-                        label: AppStrings.sourceCode,
-                        icon: Icons.code_rounded,
-                        isOutline: true,
-                        onTap: () => widget.controller.launchURL(
-                          widget.project.githubUrl!,
-                        ),
-                      ),
-                    if (_hasGithub && _hasLiveDemo)
-                      const SizedBox(height: 8),
-                    if (_hasLiveDemo)
-                      PortfolioPrimaryButton(
-                        label: AppStrings.liveDemo,
-                        icon: Icons.open_in_new_rounded,
-                        onTap: () => widget.controller.launchURL(
-                          widget.project.liveDemoUrl!,
-                        ),
-                      ),
-                  ],
-                ],
-              ),
-            ),
+            // Content section
+            // When equalHeight, expand to fill remaining vertical space
+            _buildContentSection(widget.equalHeight),
           ],
         ),
       ),
     );
+  }
+
+  /// Builds the content area below the image.
+  /// When [equalHeight] is true, wraps in Expanded so the content
+  /// stretches and buttons are pushed to the bottom.
+  Widget _buildContentSection(bool equalHeight) {
+    final content = ClipRect(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: equalHeight ? MainAxisSize.max : MainAxisSize.min,
+          children: [
+            // Featured badge
+            if (widget.project.isFeatured) ...[
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 3,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFDFAA26).withAlpha(20),
+                  borderRadius: BorderRadius.circular(100),
+                  border: Border.all(
+                    color: const Color(0xFFDFAA26).withAlpha(60),
+                  ),
+                ),
+                child: Text(
+                  '⭐ Featured',
+                  style: GoogleFonts.inter(
+                    fontSize: 10,
+                    color: const Color(0xFFDFAA26),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+            ],
+            Text(
+              widget.project.title,
+              style: GoogleFonts.outfit(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 6),
+            Flexible(
+              child: Text(
+                widget.project.description,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: GoogleFonts.inter(
+                  fontSize: 12,
+                  color: Colors.white.withAlpha(140),
+                  height: 1.6,
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Flexible(
+              child: Wrap(
+                spacing: 6,
+                runSpacing: 4,
+                children: widget.project.technologies
+                    .take(3)
+                    .map((t) => _TechTag(label: t))
+                    .toList(),
+              ),
+            ),
+
+            // Push buttons to bottom when equal height
+            if (equalHeight) const Spacer(),
+
+            // Buttons — only rendered when URLs exist
+            if (_hasGithub || _hasLiveDemo) ...[
+              const SizedBox(height: 16),
+              if (_hasGithub)
+                PortfolioPrimaryButton(
+                  label: AppStrings.sourceCode,
+                  icon: Icons.code_rounded,
+                  isOutline: true,
+                  onTap: () => widget.controller.launchURL(
+                    widget.project.githubUrl!,
+                  ),
+                ),
+              if (_hasGithub && _hasLiveDemo)
+                const SizedBox(height: 8),
+              if (_hasLiveDemo)
+                PortfolioPrimaryButton(
+                  label: AppStrings.liveDemo,
+                  icon: Icons.open_in_new_rounded,
+                  onTap: () => widget.controller.launchURL(
+                    widget.project.liveDemoUrl!,
+                  ),
+                ),
+            ],
+          ],
+        ),
+      ),
+    );
+
+    return equalHeight ? Expanded(child: content) : content;
   }
 }
 

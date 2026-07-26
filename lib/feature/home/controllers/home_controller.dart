@@ -9,6 +9,7 @@ import 'package:siam_portfolio/core/models/testimonial_model.dart';
 import 'package:siam_portfolio/core/models/service_model.dart';
 import 'package:siam_portfolio/core/models/achievement_model.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:siam_portfolio/core/utils/constants/app_strings.dart';
 
 /// Main HomeController — manages navigation, scroll, data, and contact form.
 class HomeController extends GetxController {
@@ -132,18 +133,37 @@ class HomeController extends GetxController {
   Future<void> sendMessage() async {
     if (!formKey.currentState!.validate()) return;
     isSendingMessage.value = true;
-    await Future.delayed(const Duration(seconds: 2)); // Simulate API call
+
+    final name = nameController.text.trim();
+    final email = emailController.text.trim();
+    final subject = subjectController.text.trim();
+    final message = messageController.text.trim();
+
+    final mailtoUri = Uri(
+      scheme: 'mailto',
+      path: AppStrings.email,
+      queryParameters: {
+        'subject': subject,
+        'body': 'From: $name ($email)\n\n$message',
+      },
+    );
+
+    await launchURL(mailtoUri.toString());
+
     isSendingMessage.value = false;
+
     nameController.clear();
     emailController.clear();
     subjectController.clear();
     messageController.clear();
+
     Get.snackbar(
-      '✅ Message Sent!',
-      'Thank you for reaching out. I will get back to you soon.',
+      '📧 Opening Email App',
+      'Opening your email app with the message pre-filled to ${AppStrings.email}.',
       snackPosition: SnackPosition.TOP,
       backgroundColor: const Color(0xFF818CF8),
       colorText: Colors.white,
+      duration: const Duration(seconds: 4),
       borderRadius: 12,
       margin: const EdgeInsets.all(16),
     );
@@ -318,6 +338,8 @@ class HomeController extends GetxController {
       title: 'Flutter & Dart — The Complete Guide',
       organization: 'Ostad',
       date: 'Jan 2024',
+      verifyUrl:
+          "https://drive.google.com/file/d/1-9pxH5yRbqeN6FMipE-bMkRLzOJV6OwU/view?usp=drive_link",
     ),
     // const CertificateModel(
     //   title: 'Firebase for Flutter Developers',

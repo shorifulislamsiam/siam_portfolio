@@ -79,47 +79,70 @@ class _ContactInfo extends GetView<HomeController> {
         ).animate(delay: 100.ms).fadeIn(duration: 500.ms),
         const SizedBox(height: 32),
         ...items.asMap().entries.map(
-              (e) => Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 46,
-                      height: 46,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: const Color(0xFF818CF8).withAlpha(20),
-                        border: Border.all(
-                            color: const Color(0xFF818CF8).withAlpha(50)),
+              (e) {
+                final isEmail = e.value.$2 == 'Email';
+                final isPhone = e.value.$2 == 'Phone';
+
+                VoidCallback? onTap;
+                if (isEmail) {
+                  onTap = () => controller.launchURL('mailto:${AppStrings.email}');
+                } else if (isPhone) {
+                  onTap = () => controller.launchURL('tel:${AppStrings.phone}');
+                }
+
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 20),
+                  child: InkWell(
+                    onTap: onTap,
+                    borderRadius: BorderRadius.circular(8),
+                    child: Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 46,
+                            height: 46,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: const Color(0xFF818CF8).withAlpha(20),
+                              border: Border.all(
+                                  color: const Color(0xFF818CF8).withAlpha(50)),
+                            ),
+                            child: Icon(e.value.$1,
+                                color: const Color(0xFF818CF8), size: 20),
+                          ),
+                          const SizedBox(width: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                e.value.$2,
+                                style: GoogleFonts.inter(
+                                  fontSize: 11,
+                                  color: const Color(0xFF818CF8),
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 1.5,
+                                ),
+                              ),
+                              Text(
+                                e.value.$3,
+                                style: GoogleFonts.inter(
+                                  fontSize: 14,
+                                  color: Colors.white.withAlpha(180),
+                                  decoration: (isEmail || isPhone)
+                                      ? TextDecoration.underline
+                                      : TextDecoration.none,
+                                  decorationColor: const Color(0xFF818CF8).withAlpha(100),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      child: Icon(e.value.$1,
-                          color: const Color(0xFF818CF8), size: 20),
                     ),
-                    const SizedBox(width: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          e.value.$2,
-                          style: GoogleFonts.inter(
-                            fontSize: 11,
-                            color: const Color(0xFF818CF8),
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: 1.5,
-                          ),
-                        ),
-                        Text(
-                          e.value.$3,
-                          style: GoogleFonts.inter(
-                            fontSize: 14,
-                            color: Colors.white.withAlpha(180),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ).animate(delay: Duration(milliseconds: (e.key + 1) * 100)).fadeIn(duration: 500.ms),
+                  ),
+                ).animate(delay: Duration(milliseconds: (e.key + 1) * 100)).fadeIn(duration: 500.ms);
+              },
             ),
       ],
     );
