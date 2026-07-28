@@ -124,8 +124,19 @@ class HomeController extends GetxController {
   // ── URL Launcher ──────────────────────────────────────────────────────────
   Future<void> launchURL(String url) async {
     final uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    try {
+      bool launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      if (!launched) {
+        launched = await launchUrl(uri);
+      }
+      if (!launched && url.startsWith('mailto:')) {
+        scrollToSection(contactKey, 6);
+      }
+    } catch (e) {
+      debugPrint('Could not launch $url: $e');
+      if (url.startsWith('mailto:')) {
+        scrollToSection(contactKey, 6);
+      }
     }
   }
 

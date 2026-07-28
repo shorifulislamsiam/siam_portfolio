@@ -29,24 +29,25 @@ class FooterWidget extends GetView<HomeController> {
             alignment: WrapAlignment.center,
             children: [
               PortfolioSocialButton(
-                icon: Icons.code_rounded,
+                icon: Icons.code,
                 onTap: () => controller.launchURL(AppStrings.githubUrl),
                 tooltip: 'GitHub',
+                //size: 24,
               ),
               PortfolioSocialButton(
-                icon: Icons.business_center_rounded,
+                icon: Icons.code,
+                onTap: () => controller.launchURL(AppStrings.gitLabUrl),
+                tooltip: 'GitLab',
+              ),
+              PortfolioSocialButton(
+                icon: Icons.link,
                 onTap: () => controller.launchURL(AppStrings.linkedinUrl),
                 tooltip: 'LinkedIn',
               ),
+
               PortfolioSocialButton(
-                icon: Icons.facebook_rounded,
-                onTap: () => controller.launchURL(AppStrings.facebookUrl),
-                tooltip: 'Facebook',
-              ),
-              PortfolioSocialButton(
-                icon: Icons.mail_rounded,
-                onTap: () =>
-                    controller.launchURL('mailto:${AppStrings.email}'),
+                icon: Icons.email,
+                onTap: () => controller.launchURL('mailto:${AppStrings.email}'),
                 tooltip: 'Email',
               ),
             ],
@@ -88,13 +89,17 @@ class FooterWidget extends GetView<HomeController> {
                 color: const Color(0xFF818CF8).withAlpha(20),
                 borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
                 border: Border.all(
-                    color: const Color(0xFF818CF8).withAlpha(60)),
+                  color: const Color(0xFF818CF8).withAlpha(60),
+                ),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.arrow_upward_rounded,
-                      size: 14, color: Color(0xFF818CF8)),
+                  const Icon(
+                    Icons.arrow_upward_rounded,
+                    size: 14,
+                    color: Color(0xFF818CF8),
+                  ),
                   const SizedBox(width: 6),
                   Text(
                     AppStrings.backToTop,
