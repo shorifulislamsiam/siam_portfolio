@@ -33,10 +33,10 @@ class HeroSection extends GetView<HomeController> {
               vertical: 80,
             ),
             child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: AppDimensions.maxContentWidth),
-              child: isDesktop
-                  ? _DesktopHeroContent()
-                  : _MobileHeroContent(),
+              constraints: const BoxConstraints(
+                maxWidth: AppDimensions.maxContentWidth,
+              ),
+              child: isDesktop ? _DesktopHeroContent() : _MobileHeroContent(),
             ),
           ),
         ),
@@ -89,10 +89,7 @@ class _DesktopHeroContent extends GetView<HomeController> {
           ),
         ),
         const SizedBox(width: 60),
-        Expanded(
-          flex: 4,
-          child: Center(child: _ProfileAvatar()),
-        ),
+        Expanded(flex: 4, child: Center(child: _ProfileAvatar())),
       ],
     );
   }
@@ -106,50 +103,50 @@ class _ProfileAvatar extends StatelessWidget {
         : AppDimensions.profileImageSize;
 
     return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: const LinearGradient(
-          colors: [Color(0xFF818CF8), Color(0xFFA78BFA)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF818CF8).withAlpha(60),
-            blurRadius: 40,
-            spreadRadius: 4,
-            offset: const Offset(0, 10),
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: const LinearGradient(
+              colors: [Color(0xFF818CF8), Color(0xFFA78BFA)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: const Color(0xFF818CF8).withAlpha(60),
+                blurRadius: 40,
+                spreadRadius: 4,
+                offset: const Offset(0, 10),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: ClipOval(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            // Placeholder when no image is provided
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xFF1E1F3A), Color(0xFF25233E)],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
+          child: ClipOval(
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                // Placeholder when no image is provided
+                Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Color(0xFF1E1F3A), Color(0xFF25233E)],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  ),
                 ),
-              ),
+                Text(
+                  'S',
+                  style: GoogleFonts.outfit(
+                    fontSize: size * 0.4,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white.withAlpha(80),
+                  ),
+                ),
+              ],
             ),
-            Text(
-              'S',
-              style: GoogleFonts.outfit(
-                fontSize: size * 0.4,
-                fontWeight: FontWeight.w700,
-                color: Colors.white.withAlpha(80),
-              ),
-            ),
-          ],
-        ),
-      ),
-    )
+          ),
+        )
         .animate()
         .scale(
           begin: const Offset(0.8, 0.8),
@@ -167,8 +164,9 @@ class _HeroText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final align =
-        centerAlign ? CrossAxisAlignment.center : CrossAxisAlignment.start;
+    final align = centerAlign
+        ? CrossAxisAlignment.center
+        : CrossAxisAlignment.start;
     final textAlign = centerAlign ? TextAlign.center : TextAlign.left;
 
     return Column(
@@ -274,22 +272,27 @@ class _SocialLinks extends GetView<HomeController> {
       spacing: 12,
       children: [
         PortfolioSocialButton(
-          icon: Icons.code_rounded,
+          icon: Icons.code,
           onTap: () => controller.launchURL(AppStrings.githubUrl),
           tooltip: 'GitHub',
         ),
         PortfolioSocialButton(
-          icon: Icons.business_center_rounded,
+          icon: Icons.build,
+          onTap: () => controller.launchURL(AppStrings.gitLabUrl),
+          tooltip: 'GitLab',
+        ),
+        PortfolioSocialButton(
+          icon: Icons.link,
           onTap: () => controller.launchURL(AppStrings.linkedinUrl),
           tooltip: 'LinkedIn',
         ),
+        // PortfolioSocialButton(
+        //   icon: Icons.facebook_rounded,
+        //   onTap: () => controller.launchURL(AppStrings.facebookUrl),
+        //   tooltip: 'Facebook',
+        // ),
         PortfolioSocialButton(
-          icon: Icons.facebook_rounded,
-          onTap: () => controller.launchURL(AppStrings.facebookUrl),
-          tooltip: 'Facebook',
-        ),
-        PortfolioSocialButton(
-          icon: Icons.mail_rounded,
+          icon: Icons.email,
           onTap: () => controller.launchURL('mailto:${AppStrings.email}'),
           tooltip: 'Email',
         ),
@@ -306,15 +309,16 @@ class _LocationChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: const Color(0xFF818CF8).withAlpha(20),
         borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
-        border: Border.all(
-          color: const Color(0xFF818CF8).withAlpha(50),
-        ),
+        border: Border.all(color: const Color(0xFF818CF8).withAlpha(50)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(Icons.location_on_rounded,
-              size: 14, color: Color(0xFF818CF8)),
+          const Icon(
+            Icons.location_on_rounded,
+            size: 14,
+            color: Color(0xFF818CF8),
+          ),
           const SizedBox(width: 6),
           Text(
             AppStrings.location,

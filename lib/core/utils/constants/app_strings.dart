@@ -9,16 +9,17 @@ class AppStrings {
   static const String designation = 'Flutter Developer';
   static const String tagline = 'Building beautiful cross-platform experiences';
   static const String email = 'shorifulislamsiam18@gmail.com';
-  static const String phone = '+880 1711111111';
+  static const String phone = '+880 1778086086';
   static const String location = 'Dhaka, Bangladesh';
 
   // ── Social Links ───────────────────────────────────────────────────────────
   static const String githubUrl = 'https://github.com/shorifulislamsiam';
+  static const String gitLabUrl =
+      'https://gitlab.betopialimited.com/shorifulislamsiam';
   static const String linkedinUrl =
       'https://www.linkedin.com/in/shoriful-islam-siam-42b5b723b/';
   //static const String facebookUrl = 'https://www.facebook.com/shorifulislam.siam.940';
-  static const String facebookUrl =
-      'https://github.com/siamislam@softvence.com';
+  //static const String facebookUrl = 'https://github.com/Siamislamsoftvence';
 
   // ── Bio ────────────────────────────────────────────────────────────────────
   static const String bio =

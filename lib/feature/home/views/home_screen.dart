@@ -12,9 +12,7 @@ import 'package:siam_portfolio/feature/home/widgets/experience_section.dart';
 import 'package:siam_portfolio/feature/home/widgets/education_section.dart';
 import 'package:siam_portfolio/feature/home/widgets/projects_section.dart';
 import 'package:siam_portfolio/feature/home/widgets/certificates_section.dart';
-import 'package:siam_portfolio/feature/home/widgets/achievements_section.dart';
 import 'package:siam_portfolio/feature/home/widgets/tech_stack_section.dart';
-import 'package:siam_portfolio/feature/home/widgets/testimonials_section.dart';
 import 'package:siam_portfolio/feature/home/widgets/contact_section.dart';
 import 'package:siam_portfolio/feature/home/widgets/footer_widget.dart';
 

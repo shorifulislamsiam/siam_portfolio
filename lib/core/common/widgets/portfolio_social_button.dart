@@ -47,9 +47,7 @@ class _PortfolioSocialButtonState extends State<PortfolioSocialButton> {
             height: 44,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: _hovered
-                  ? accent.withAlpha(40)
-                  : Colors.transparent,
+              color: _hovered ? accent.withAlpha(40) : Colors.transparent,
               border: Border.all(
                 color: _hovered
                     ? accent
@@ -60,7 +58,9 @@ class _PortfolioSocialButtonState extends State<PortfolioSocialButton> {
             child: Icon(
               widget.icon,
               size: widget.size,
-              color: _hovered ? accent : (widget.color ?? accent).withAlpha(180),
+              color: _hovered
+                  ? accent
+                  : (widget.color ?? accent).withAlpha(180),
             ),
           ),
         ),
