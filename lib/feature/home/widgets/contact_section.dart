@@ -6,8 +6,8 @@ import 'package:siam_portfolio/core/common/widgets/portfolio_primary_button.dart
 import 'package:siam_portfolio/core/common/widgets/portfolio_section_title.dart';
 import 'package:siam_portfolio/core/common/widgets/portfolio_section_wrapper.dart';
 import 'package:siam_portfolio/core/utils/constants/app_strings.dart';
-
 import 'package:siam_portfolio/core/utils/helpers/responsive_helper.dart';
+import 'package:siam_portfolio/core/utils/theme/app_theme_colors.dart';
 import 'package:siam_portfolio/feature/home/controllers/home_controller.dart';
 
 /// Contact section with validated form and contact info.
@@ -17,7 +17,7 @@ class ContactSection extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return PortfolioSectionWrapper(
-      backgroundColor: const Color(0xFF0A0A1A),
+      backgroundColor: AppThemeColors.altBg(context),
       child: Column(
         children: [
           const PortfolioSectionTitle(
@@ -50,6 +50,7 @@ class ContactSection extends GetView<HomeController> {
 class _ContactInfo extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
+    final primary = AppThemeColors.primary(context);
     final items = [
       (Icons.location_on_rounded, 'Location', AppStrings.location),
       (Icons.email_rounded, 'Email', AppStrings.email),
@@ -64,7 +65,7 @@ class _ContactInfo extends GetView<HomeController> {
           style: GoogleFonts.outfit(
             fontSize: 24,
             fontWeight: FontWeight.w700,
-            color: Colors.white,
+            color: AppThemeColors.textMain(context),
           ),
         ).animate().fadeIn(duration: 500.ms),
         const SizedBox(height: 12),
@@ -73,7 +74,7 @@ class _ContactInfo extends GetView<HomeController> {
           "If you have a project that needs Flutter expertise, let's talk!",
           style: GoogleFonts.inter(
             fontSize: 14,
-            color: Colors.white.withAlpha(150),
+            color: AppThemeColors.textHint(context),
             height: 1.7,
           ),
         ).animate(delay: 100.ms).fadeIn(duration: 500.ms),
@@ -104,12 +105,11 @@ class _ContactInfo extends GetView<HomeController> {
                             height: 46,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: const Color(0xFF818CF8).withAlpha(20),
-                              border: Border.all(
-                                  color: const Color(0xFF818CF8).withAlpha(50)),
+                              color: primary.withAlpha(20),
+                              border: Border.all(color: primary.withAlpha(50)),
                             ),
                             child: Icon(e.value.$1,
-                                color: const Color(0xFF818CF8), size: 20),
+                                color: primary, size: 20),
                           ),
                           const SizedBox(width: 16),
                           Column(
@@ -119,7 +119,7 @@ class _ContactInfo extends GetView<HomeController> {
                                 e.value.$2,
                                 style: GoogleFonts.inter(
                                   fontSize: 11,
-                                  color: const Color(0xFF818CF8),
+                                  color: primary,
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 1.5,
                                 ),
@@ -128,11 +128,11 @@ class _ContactInfo extends GetView<HomeController> {
                                 e.value.$3,
                                 style: GoogleFonts.inter(
                                   fontSize: 14,
-                                  color: Colors.white.withAlpha(180),
+                                  color: AppThemeColors.textSubtle(context),
                                   decoration: (isEmail || isPhone)
                                       ? TextDecoration.underline
                                       : TextDecoration.none,
-                                  decorationColor: const Color(0xFF818CF8).withAlpha(100),
+                                  decorationColor: primary.withAlpha(100),
                                 ),
                               ),
                             ],
@@ -158,6 +158,7 @@ class _ContactForm extends GetView<HomeController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildField(
+            context: context,
             label: 'Your Name',
             controller: controller.nameController,
             icon: Icons.person_outline_rounded,
@@ -166,6 +167,7 @@ class _ContactForm extends GetView<HomeController> {
           ),
           const SizedBox(height: 16),
           _buildField(
+            context: context,
             label: 'Your Email',
             controller: controller.emailController,
             icon: Icons.email_outlined,
@@ -178,6 +180,7 @@ class _ContactForm extends GetView<HomeController> {
           ),
           const SizedBox(height: 16),
           _buildField(
+            context: context,
             label: 'Subject',
             controller: controller.subjectController,
             icon: Icons.subject_rounded,
@@ -186,6 +189,7 @@ class _ContactForm extends GetView<HomeController> {
           ),
           const SizedBox(height: 16),
           _buildField(
+            context: context,
             label: 'Message',
             controller: controller.messageController,
             icon: Icons.message_outlined,
@@ -199,9 +203,10 @@ class _ContactForm extends GetView<HomeController> {
           const SizedBox(height: 24),
           Obx(
             () => controller.isSendingMessage.value
-                ? const Center(
+                ? Center(
                     child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation(Color(0xFF818CF8)),
+                      valueColor: AlwaysStoppedAnimation(
+                          AppThemeColors.primary(context)),
                     ),
                   )
                 : PortfolioPrimaryButton(
@@ -216,6 +221,7 @@ class _ContactForm extends GetView<HomeController> {
   }
 
   Widget _buildField({
+    required BuildContext context,
     required String label,
     required TextEditingController controller,
     required IconData icon,
@@ -223,6 +229,7 @@ class _ContactForm extends GetView<HomeController> {
     TextInputType? keyboardType,
     int maxLines = 1,
   }) {
+    final primary = AppThemeColors.primary(context);
     return TextFormField(
       controller: controller,
       maxLines: maxLines,
@@ -230,11 +237,11 @@ class _ContactForm extends GetView<HomeController> {
       validator: validator,
       style: GoogleFonts.inter(
         fontSize: 14,
-        color: Colors.white.withAlpha(200),
+        color: AppThemeColors.textSubtle(context),
       ),
       decoration: InputDecoration(
         hintText: label,
-        prefixIcon: Icon(icon, color: const Color(0xFF818CF8), size: 20),
+        prefixIcon: Icon(icon, color: primary, size: 20),
       ),
     );
   }

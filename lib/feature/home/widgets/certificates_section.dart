@@ -8,6 +8,7 @@ import 'package:siam_portfolio/core/common/widgets/portfolio_section_wrapper.dar
 import 'package:siam_portfolio/core/models/certificate_model.dart';
 import 'package:siam_portfolio/core/utils/constants/app_dimensions.dart';
 import 'package:siam_portfolio/core/utils/helpers/responsive_helper.dart';
+import 'package:siam_portfolio/core/utils/theme/app_theme_colors.dart';
 import 'package:siam_portfolio/feature/home/controllers/home_controller.dart';
 
 /// Certificates section with responsive grid.
@@ -20,7 +21,7 @@ class CertificatesSection extends GetView<HomeController> {
         mobile: 1, tablet: 2, desktop: 4);
 
     return PortfolioSectionWrapper(
-      backgroundColor: const Color(0xFF0A0A1A),
+      backgroundColor: AppThemeColors.altBg(context),
       child: Column(
         children: [
           const PortfolioSectionTitle(
@@ -66,6 +67,7 @@ class _CertCard extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final primary = AppThemeColors.primary(context);
     return GestureDetector(
       onTap: cert.verifyUrl != null
           ? () => controller.launchURL(cert.verifyUrl!)
@@ -77,9 +79,9 @@ class _CertCard extends GetView<HomeController> {
         child: Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: const Color(0xFF1E1F3A).withAlpha(60),
+            color: AppThemeColors.cardBg(context).withAlpha(60),
             borderRadius: BorderRadius.circular(AppDimensions.cardRadius),
-            border: Border.all(color: const Color(0xFF818CF8).withAlpha(30)),
+            border: Border.all(color: primary.withAlpha(30)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,7 +105,7 @@ class _CertCard extends GetView<HomeController> {
                 style: GoogleFonts.outfit(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: Colors.white,
+                  color: AppThemeColors.textMain(context),
                 ),
               ),
               const SizedBox(height: 6),
@@ -111,7 +113,7 @@ class _CertCard extends GetView<HomeController> {
                 cert.organization,
                 style: GoogleFonts.inter(
                   fontSize: 12,
-                  color: const Color(0xFF818CF8),
+                  color: primary,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -120,7 +122,7 @@ class _CertCard extends GetView<HomeController> {
                 cert.date,
                 style: GoogleFonts.inter(
                   fontSize: 11,
-                  color: Colors.white.withAlpha(100),
+                  color: AppThemeColors.textHint(context),
                 ),
               ),
               const Spacer(),

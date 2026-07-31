@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:siam_portfolio/core/utils/constants/app_dimensions.dart';
+import 'package:siam_portfolio/core/utils/theme/app_theme_colors.dart';
 
 /// Reusable animated section title with gradient underline.
 ///
@@ -26,7 +26,7 @@ class PortfolioSectionTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primary = AppThemeColors.primary(context);
 
     Widget content = Column(
       crossAxisAlignment: alignment,
@@ -39,7 +39,7 @@ class PortfolioSectionTitle extends StatelessWidget {
               fontSize: 12,
               fontWeight: FontWeight.w600,
               letterSpacing: 3,
-              color: const Color(0xFF818CF8),
+              color: primary,
             ),
           ),
           const SizedBox(height: AppDimensions.spacingSm),
@@ -53,13 +53,14 @@ class PortfolioSectionTitle extends StatelessWidget {
           style: GoogleFonts.outfit(
             fontSize: 36,
             fontWeight: FontWeight.w700,
-            color: isDark ? Colors.white : const Color(0xFF1A1A2E),
+            color: AppThemeColors.textMain(context),
             height: 1.2,
           ),
         ),
         const SizedBox(height: AppDimensions.spacingMd),
         // Gradient underline bar
-        _GradientBar(alignment: alignment),
+        _GradientBar(alignment: alignment, primary: primary,
+            secondary: AppThemeColors.secondary(context)),
       ],
     );
 
@@ -74,7 +75,13 @@ class PortfolioSectionTitle extends StatelessWidget {
 
 class _GradientBar extends StatelessWidget {
   final CrossAxisAlignment alignment;
-  const _GradientBar({required this.alignment});
+  final Color primary;
+  final Color secondary;
+  const _GradientBar({
+    required this.alignment,
+    required this.primary,
+    required this.secondary,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -82,9 +89,7 @@ class _GradientBar extends StatelessWidget {
       width: 60,
       height: 4,
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [Color(0xFF818CF8), Color(0xFFA78BFA)],
-        ),
+        gradient: LinearGradient(colors: [primary, secondary]),
         borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
       ),
     );

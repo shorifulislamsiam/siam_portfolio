@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:siam_portfolio/core/utils/theme/app_theme_colors.dart';
 
 /// Animated gradient mesh background used in the Hero section.
 /// Uses multiple stacked radial gradients that slowly pulse.
@@ -39,6 +40,16 @@ class _PortfolioAnimatedBackgroundState
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primary   = AppThemeColors.primary(context);
+    final secondary = AppThemeColors.secondary(context);
+    final bgColor   = isDark
+        ? AppThemeColors.darkBg
+        : AppThemeColors.lightBg;
+    final accentBlue = isDark
+        ? const Color(0xFF56BEFF)
+        : const Color(0xFF7DD3FC); // sky-300
+
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, _) {
@@ -47,7 +58,7 @@ class _PortfolioAnimatedBackgroundState
           children: [
             // Base background
             Positioned.fill(
-              child: Container(color: const Color(0xFF090818)),
+              child: Container(color: bgColor),
             ),
 
             // Top-left orb
@@ -56,7 +67,7 @@ class _PortfolioAnimatedBackgroundState
               left: -100 + (_animation.value * 20),
               child: _Orb(
                 size: 500,
-                color: const Color(0xFF818CF8).withAlpha(30),
+                color: primary.withAlpha(isDark ? 30 : 40),
               ),
             ),
 
@@ -66,7 +77,7 @@ class _PortfolioAnimatedBackgroundState
               right: -80 + (_animation.value * 20),
               child: _Orb(
                 size: 450,
-                color: const Color(0xFFA78BFA).withAlpha(25),
+                color: secondary.withAlpha(isDark ? 25 : 30),
               ),
             ),
 
@@ -76,13 +87,13 @@ class _PortfolioAnimatedBackgroundState
               right: 100 + (_animation.value * -30),
               child: _Orb(
                 size: 300,
-                color: const Color(0xFF56BEFF).withAlpha(15),
+                color: accentBlue.withAlpha(isDark ? 15 : 20),
               ),
             ),
 
             // Grid overlay
             Positioned.fill(
-              child: CustomPaint(painter: _GridPainter()),
+              child: CustomPaint(painter: _GridPainter(primary)),
             ),
 
             // Child
@@ -118,10 +129,13 @@ class _Orb extends StatelessWidget {
 
 /// Subtle dot-grid overlay painter.
 class _GridPainter extends CustomPainter {
+  final Color color;
+  const _GridPainter(this.color);
+
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = const Color(0xFF818CF8).withAlpha(10)
+      ..color = color.withAlpha(10)
       ..strokeWidth = 1;
     const step = 40.0;
     for (double x = 0; x < size.width; x += step) {
@@ -132,5 +146,5 @@ class _GridPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _GridPainter old) => old.color != color;
 }

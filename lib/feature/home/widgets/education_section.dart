@@ -6,6 +6,7 @@ import 'package:siam_portfolio/core/common/widgets/portfolio_section_title.dart'
 import 'package:siam_portfolio/core/common/widgets/portfolio_section_wrapper.dart';
 import 'package:siam_portfolio/core/models/education_model.dart';
 import 'package:siam_portfolio/core/utils/constants/app_dimensions.dart';
+import 'package:siam_portfolio/core/utils/theme/app_theme_colors.dart';
 import 'package:siam_portfolio/feature/home/controllers/home_controller.dart';
 
 /// Education section with timeline cards.
@@ -15,7 +16,7 @@ class EducationSection extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return PortfolioSectionWrapper(
-      backgroundColor: const Color(0xFF0A0A1A),
+      backgroundColor: AppThemeColors.altBg(context),
       child: Column(
         children: [
           const PortfolioSectionTitle(
@@ -49,6 +50,7 @@ class _EducationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final secondary = AppThemeColors.secondary(context);
     return Stack(
       children: [
         // Timeline line drawn behind the content
@@ -59,7 +61,7 @@ class _EducationCard extends StatelessWidget {
             bottom: 0,
             child: Container(
               width: AppDimensions.timelineLineWidth,
-              color: const Color(0xFFA78BFA).withAlpha(40),
+              color: secondary.withAlpha(40),
             ),
           ),
         // Main row content
@@ -75,9 +77,9 @@ class _EducationCard extends StatelessWidget {
                   height: AppDimensions.timelineDotSize,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: const Color(0xFFA78BFA),
+                    color: secondary,
                     border: Border.all(
-                      color: const Color(0xFFA78BFA),
+                      color: secondary,
                       width: 2,
                     ),
                   ),
@@ -91,11 +93,11 @@ class _EducationCard extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(AppDimensions.cardPadding),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1E1F3A).withAlpha(60),
+                    color: AppThemeColors.cardBg(context).withAlpha(60),
                     borderRadius:
                         BorderRadius.circular(AppDimensions.cardRadius),
                     border: Border.all(
-                      color: const Color(0xFFA78BFA).withAlpha(30),
+                      color: secondary.withAlpha(30),
                     ),
                   ),
                   child: Column(
@@ -107,7 +109,7 @@ class _EducationCard extends StatelessWidget {
                         style: GoogleFonts.outfit(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
-                          color: Colors.white,
+                          color: AppThemeColors.textMain(context),
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -115,7 +117,7 @@ class _EducationCard extends StatelessWidget {
                         edu.institution,
                         style: GoogleFonts.inter(
                           fontSize: 14,
-                          color: const Color(0xFFA78BFA),
+                          color: secondary,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -124,7 +126,7 @@ class _EducationCard extends StatelessWidget {
                         '${edu.field} • ${edu.duration}',
                         style: GoogleFonts.inter(
                           fontSize: 12,
-                          color: Colors.white.withAlpha(100),
+                          color: AppThemeColors.textHint(context),
                         ),
                       ),
                       if (edu.cgpa != null) ...[
@@ -154,7 +156,7 @@ class _EducationCard extends StatelessWidget {
                           edu.description!,
                           style: GoogleFonts.inter(
                             fontSize: 13,
-                            color: Colors.white.withAlpha(140),
+                            color: AppThemeColors.textHint(context),
                             height: 1.6,
                           ),
                         ),

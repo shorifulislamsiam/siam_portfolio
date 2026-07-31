@@ -10,6 +10,7 @@ import 'package:siam_portfolio/core/models/project_model.dart';
 import 'package:siam_portfolio/core/utils/constants/app_dimensions.dart';
 import 'package:siam_portfolio/core/utils/constants/app_strings.dart';
 import 'package:siam_portfolio/core/utils/helpers/responsive_helper.dart';
+import 'package:siam_portfolio/core/utils/theme/app_theme_colors.dart';
 import 'package:siam_portfolio/feature/home/controllers/home_controller.dart';
 
 /// Projects section with category filter and responsive grid of project cards.
@@ -99,6 +100,7 @@ class _FilterChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primary = AppThemeColors.primary(context);
     return GestureDetector(
       onTap: onTap,
       child: AnimatedContainer(
@@ -106,11 +108,11 @@ class _FilterChip extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected
-              ? const Color(0xFF818CF8)
-              : const Color(0xFF818CF8).withAlpha(20),
+              ? primary
+              : primary.withAlpha(20),
           borderRadius: BorderRadius.circular(100),
           border: Border.all(
-            color: const Color(0xFF818CF8).withAlpha(isSelected ? 255 : 80),
+            color: primary.withAlpha(isSelected ? 255 : 80),
           ),
         ),
         child: Text(
@@ -118,7 +120,7 @@ class _FilterChip extends StatelessWidget {
           style: GoogleFonts.inter(
             fontSize: 13,
             fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-            color: isSelected ? Colors.white : const Color(0xFF818CF8),
+            color: isSelected ? Colors.white : primary,
           ),
         ),
       ),
@@ -181,6 +183,8 @@ class _HoverProjectCardState extends State<_HoverProjectCard> {
 
   @override
   Widget build(BuildContext context) {
+    final primary = AppThemeColors.primary(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       onEnter: (_) => setState(() => _hovered = true),
@@ -189,18 +193,18 @@ class _HoverProjectCardState extends State<_HoverProjectCard> {
         duration: const Duration(milliseconds: 250),
         decoration: BoxDecoration(
           color: _hovered
-              ? const Color(0xFF818CF8).withAlpha(15)
-              : const Color(0xFF1E1F3A).withAlpha(60),
+              ? primary.withAlpha(15)
+              : AppThemeColors.cardBg(context).withAlpha(60),
           borderRadius: BorderRadius.circular(AppDimensions.cardRadius),
           border: Border.all(
             color: _hovered
-                ? const Color(0xFF818CF8).withAlpha(120)
-                : const Color(0xFF818CF8).withAlpha(25),
+                ? primary.withAlpha(120)
+                : primary.withAlpha(25),
           ),
           boxShadow: _hovered
               ? [
                   BoxShadow(
-                    color: const Color(0xFF818CF8).withAlpha(25),
+                    color: primary.withAlpha(25),
                     blurRadius: 24,
                     offset: const Offset(0, 8),
                   ),
@@ -209,7 +213,6 @@ class _HoverProjectCardState extends State<_HoverProjectCard> {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          // When equalHeight, stretch to fill the fixed-height parent
           mainAxisSize: widget.equalHeight
               ? MainAxisSize.max
               : MainAxisSize.min,
@@ -222,9 +225,11 @@ class _HoverProjectCardState extends State<_HoverProjectCard> {
               child: AspectRatio(
                 aspectRatio: 16 / 9,
                 child: Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Color(0xFF25233E), Color(0xFF1A1A2E)],
+                      colors: isDark
+                          ? [const Color(0xFF25233E), const Color(0xFF1A1A2E)]
+                          : [const Color(0xFFE0F2FE), const Color(0xFFBAE6FD)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -233,7 +238,7 @@ class _HoverProjectCardState extends State<_HoverProjectCard> {
                     child: Icon(
                       Icons.folder_open_rounded,
                       size: 48,
-                      color: const Color(0xFF818CF8).withAlpha(80),
+                      color: primary.withAlpha(80),
                     ),
                   ),
                 ),
@@ -241,7 +246,6 @@ class _HoverProjectCardState extends State<_HoverProjectCard> {
             ),
 
             // Content section
-            // When equalHeight, expand to fill remaining vertical space
             _buildContentSection(widget.equalHeight),
           ],
         ),
@@ -249,10 +253,8 @@ class _HoverProjectCardState extends State<_HoverProjectCard> {
     );
   }
 
-  /// Builds the content area below the image.
-  /// When [equalHeight] is true, wraps in Expanded so the content
-  /// stretches and buttons are pushed to the bottom.
   Widget _buildContentSection(bool equalHeight) {
+    final primary = AppThemeColors.primary(context);
     final content = ClipRect(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -290,7 +292,7 @@ class _HoverProjectCardState extends State<_HoverProjectCard> {
               style: GoogleFonts.outfit(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: Colors.white,
+                color: AppThemeColors.textMain(context),
               ),
             ),
             const SizedBox(height: 6),
@@ -301,7 +303,7 @@ class _HoverProjectCardState extends State<_HoverProjectCard> {
                 overflow: TextOverflow.ellipsis,
                 style: GoogleFonts.inter(
                   fontSize: 12,
-                  color: Colors.white.withAlpha(140),
+                  color: AppThemeColors.textHint(context),
                   height: 1.6,
                 ),
               ),
@@ -313,7 +315,7 @@ class _HoverProjectCardState extends State<_HoverProjectCard> {
                 runSpacing: 4,
                 children: widget.project.technologies
                     .take(3)
-                    .map((t) => _TechTag(label: t))
+                    .map((t) => _TechTag(label: t, primary: primary))
                     .toList(),
               ),
             ),
@@ -355,22 +357,24 @@ class _HoverProjectCardState extends State<_HoverProjectCard> {
 
 class _TechTag extends StatelessWidget {
   final String label;
-  const _TechTag({required this.label});
+  final Color? primary;
+  const _TechTag({required this.label, this.primary});
 
   @override
   Widget build(BuildContext context) {
+    final color = primary ?? AppThemeColors.primary(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
       decoration: BoxDecoration(
-        color: const Color(0xFF818CF8).withAlpha(15),
+        color: color.withAlpha(15),
         borderRadius: BorderRadius.circular(100),
-        border: Border.all(color: const Color(0xFF818CF8).withAlpha(40)),
+        border: Border.all(color: color.withAlpha(40)),
       ),
       child: Text(
         label,
         style: GoogleFonts.inter(
           fontSize: 10,
-          color: const Color(0xFF818CF8),
+          color: color,
           fontWeight: FontWeight.w500,
         ),
       ),

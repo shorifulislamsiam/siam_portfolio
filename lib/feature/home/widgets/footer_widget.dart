@@ -6,6 +6,7 @@ import 'package:siam_portfolio/core/common/widgets/portfolio_section_wrapper.dar
 import 'package:siam_portfolio/core/common/widgets/portfolio_social_button.dart';
 import 'package:siam_portfolio/core/utils/constants/app_dimensions.dart';
 import 'package:siam_portfolio/core/utils/constants/app_strings.dart';
+import 'package:siam_portfolio/core/utils/theme/app_theme_colors.dart';
 import 'package:siam_portfolio/feature/home/controllers/home_controller.dart';
 
 /// Site footer — copyright, nav links, social icons, and back-to-top.
@@ -14,12 +15,14 @@ class FooterWidget extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final primary = AppThemeColors.primary(context);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return PortfolioSectionWrapper(
-      backgroundColor: const Color(0xFF040B18),
+      backgroundColor: AppThemeColors.footerBg(context),
       padding: const EdgeInsets.symmetric(horizontal: 48, vertical: 40),
       child: Column(
         children: [
-          const Divider(color: Color(0x26818CF8)),
+          Divider(color: primary.withAlpha(38)),
           const SizedBox(height: 32),
 
           // Social links
@@ -32,7 +35,6 @@ class FooterWidget extends GetView<HomeController> {
                 icon: Icons.code,
                 onTap: () => controller.launchURL(AppStrings.githubUrl),
                 tooltip: 'GitHub',
-                //size: 24,
               ),
               PortfolioSocialButton(
                 icon: Icons.code,
@@ -44,7 +46,6 @@ class FooterWidget extends GetView<HomeController> {
                 onTap: () => controller.launchURL(AppStrings.linkedinUrl),
                 tooltip: 'LinkedIn',
               ),
-
               PortfolioSocialButton(
                 icon: Icons.email,
                 onTap: () => controller.launchURL('mailto:${AppStrings.email}'),
@@ -60,7 +61,7 @@ class FooterWidget extends GetView<HomeController> {
             AppStrings.madeWith,
             style: GoogleFonts.inter(
               fontSize: 13,
-              color: Colors.white.withAlpha(100),
+              color: AppThemeColors.textHint(context),
             ),
           ),
 
@@ -71,7 +72,9 @@ class FooterWidget extends GetView<HomeController> {
             AppStrings.copyright,
             style: GoogleFonts.inter(
               fontSize: 13,
-              color: Colors.white.withAlpha(80),
+              color: isDark
+                  ? Colors.white.withAlpha(80)
+                  : const Color(0xFF94A3B8),
             ),
           ),
 
@@ -86,26 +89,24 @@ class FooterWidget extends GetView<HomeController> {
                 vertical: AppDimensions.spacingSm,
               ),
               decoration: BoxDecoration(
-                color: const Color(0xFF818CF8).withAlpha(20),
+                color: primary.withAlpha(20),
                 borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
-                border: Border.all(
-                  color: const Color(0xFF818CF8).withAlpha(60),
-                ),
+                border: Border.all(color: primary.withAlpha(60)),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.arrow_upward_rounded,
                     size: 14,
-                    color: Color(0xFF818CF8),
+                    color: primary,
                   ),
                   const SizedBox(width: 6),
                   Text(
                     AppStrings.backToTop,
                     style: GoogleFonts.inter(
                       fontSize: 12,
-                      color: const Color(0xFF818CF8),
+                      color: primary,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

@@ -6,6 +6,7 @@ import 'package:siam_portfolio/core/common/widgets/portfolio_section_title.dart'
 import 'package:siam_portfolio/core/common/widgets/portfolio_section_wrapper.dart';
 import 'package:siam_portfolio/core/models/skill_model.dart';
 import 'package:siam_portfolio/core/utils/helpers/responsive_helper.dart';
+import 'package:siam_portfolio/core/utils/theme/app_theme_colors.dart';
 import 'package:siam_portfolio/feature/home/controllers/home_controller.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -100,7 +101,7 @@ class _SkillBarState extends State<_SkillBar>
                 style: GoogleFonts.inter(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  color: Colors.white.withAlpha(200),
+                  color: AppThemeColors.textSubtle(context),
                 ),
               ),
               AnimatedBuilder(
@@ -125,7 +126,7 @@ class _SkillBarState extends State<_SkillBar>
                 child: LinearProgressIndicator(
                   value: _animation.value * widget.skill.percentage,
                   minHeight: 8,
-                  backgroundColor: const Color(0xFF1E1F3A),
+                  backgroundColor: AppThemeColors.cardBg(context),
                   valueColor: AlwaysStoppedAnimation<Color>(widget.skill.color),
                 ),
               );

@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:siam_portfolio/core/common/widgets/portfolio_section_title.dart';
 import 'package:siam_portfolio/core/common/widgets/portfolio_section_wrapper.dart';
 import 'package:siam_portfolio/core/utils/constants/app_dimensions.dart';
+import 'package:siam_portfolio/core/utils/theme/app_theme_colors.dart';
 import 'package:siam_portfolio/feature/home/controllers/home_controller.dart';
 
 /// Tech Stack section — animated tag cloud.
@@ -14,7 +15,7 @@ class TechStackSection extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return PortfolioSectionWrapper(
-      backgroundColor: const Color(0xFF0A0A1A),
+      backgroundColor: AppThemeColors.altBg(context),
       child: Column(
         children: [
           const PortfolioSectionTitle(
@@ -54,6 +55,7 @@ class _TechTagState extends State<_TechTag> {
 
   @override
   Widget build(BuildContext context) {
+    final primary = AppThemeColors.primary(context);
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       onEnter: (_) => setState(() => _hovered = true),
@@ -66,16 +68,16 @@ class _TechTagState extends State<_TechTag> {
         ),
         decoration: BoxDecoration(
           color: _hovered
-              ? const Color(0xFF818CF8)
-              : const Color(0xFF818CF8).withAlpha(15),
+              ? primary
+              : primary.withAlpha(15),
           borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
           border: Border.all(
-            color: const Color(0xFF818CF8).withAlpha(_hovered ? 255 : 60),
+            color: primary.withAlpha(_hovered ? 255 : 60),
           ),
           boxShadow: _hovered
               ? [
                   BoxShadow(
-                    color: const Color(0xFF818CF8).withAlpha(50),
+                    color: primary.withAlpha(50),
                     blurRadius: 14,
                     offset: const Offset(0, 4),
                   ),
@@ -87,7 +89,7 @@ class _TechTagState extends State<_TechTag> {
           style: GoogleFonts.inter(
             fontSize: 14,
             fontWeight: FontWeight.w500,
-            color: _hovered ? Colors.white : const Color(0xFF818CF8),
+            color: _hovered ? Colors.white : primary,
           ),
         ),
       ),
