@@ -7,6 +7,7 @@ import 'package:siam_portfolio/core/common/widgets/portfolio_section_wrapper.dar
 import 'package:siam_portfolio/core/models/service_model.dart';
 import 'package:siam_portfolio/core/utils/constants/app_dimensions.dart';
 import 'package:siam_portfolio/core/utils/helpers/responsive_helper.dart';
+import 'package:siam_portfolio/core/utils/theme/app_theme_colors.dart';
 import 'package:siam_portfolio/feature/home/controllers/home_controller.dart';
 
 /// Services offered section — responsive card grid.
@@ -19,7 +20,7 @@ class ServicesSection extends GetView<HomeController> {
         mobile: 1, tablet: 2, desktop: 3);
 
     return PortfolioSectionWrapper(
-      backgroundColor: const Color(0xFF0A0A1A),
+      backgroundColor: AppThemeColors.altBg(context),
       child: Column(
         children: [
           const PortfolioSectionTitle(
@@ -62,6 +63,7 @@ class _ServiceCardState extends State<_ServiceCard> {
 
   @override
   Widget build(BuildContext context) {
+    final primary = AppThemeColors.primary(context);
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       onEnter: (_) => setState(() => _hovered = true),
@@ -71,19 +73,19 @@ class _ServiceCardState extends State<_ServiceCard> {
         padding: const EdgeInsets.all(AppDimensions.cardPadding),
         decoration: BoxDecoration(
           color: _hovered
-              ? const Color(0xFF818CF8).withAlpha(20)
-              : const Color(0xFF1E1F3A).withAlpha(60),
+              ? primary.withAlpha(20)
+              : AppThemeColors.cardBg(context).withAlpha(60),
           borderRadius: BorderRadius.circular(AppDimensions.cardRadius),
           border: Border.all(
             color: _hovered
-                ? const Color(0xFF818CF8).withAlpha(100)
-                : const Color(0xFF818CF8).withAlpha(25),
+                ? primary.withAlpha(100)
+                : primary.withAlpha(25),
             width: 1,
           ),
           boxShadow: _hovered
               ? [
                   BoxShadow(
-                    color: const Color(0xFF818CF8).withAlpha(30),
+                    color: primary.withAlpha(30),
                     blurRadius: 20,
                     offset: const Offset(0, 8),
                   ),
@@ -98,11 +100,11 @@ class _ServiceCardState extends State<_ServiceCard> {
               height: 50,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xFF818CF8).withAlpha(20),
+                color: primary.withAlpha(20),
               ),
               child: Icon(
                 widget.service.icon,
-                color: const Color(0xFF818CF8),
+                color: primary,
                 size: 26,
               ),
             ),
@@ -112,7 +114,7 @@ class _ServiceCardState extends State<_ServiceCard> {
               style: GoogleFonts.outfit(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: Colors.white,
+                color: AppThemeColors.textMain(context),
               ),
             ),
             const SizedBox(height: 8),
@@ -123,7 +125,7 @@ class _ServiceCardState extends State<_ServiceCard> {
                 maxLines: 4,
                 style: GoogleFonts.inter(
                   fontSize: 13,
-                  color: Colors.white.withAlpha(140),
+                  color: AppThemeColors.textHint(context),
                   height: 1.6,
                 ),
               ),

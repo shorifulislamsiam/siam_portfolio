@@ -8,22 +8,27 @@ class AppTheme {
   AppTheme._();
 
   // ── Portfolio accent colours ───────────────────────────────────────────────
-  static const Color _primaryAccent = Color(0xFF818CF8); // indigo-400
-  static const Color _secondaryAccent = Color(0xFFA78BFA); // violet-400
+  static const Color _primaryAccent = Color(0xFF818CF8); // indigo-400 (dark mode)
+  static const Color _secondaryAccent = Color(0xFFA78BFA); // violet-400 (dark mode)
 
-  // ── Light Theme ───────────────────────────────────────────────────────────
+  // ── Light mode ocean/sky-blue accent ─────────────────────────────────────
+  static const Color _lightPrimary = Color(0xFF0EA5E9);   // sky-500
+  static const Color _lightSecondary = Color(0xFF38BDF8); // sky-400
+
+  // ── Light Theme (white + ocean/sky-blue) ─────────────────────────────────
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
     colorScheme: ColorScheme.fromSeed(
-      seedColor: _primaryAccent,
+      seedColor: _lightPrimary,
       brightness: Brightness.light,
     ).copyWith(
-      primary: _primaryAccent,
-      secondary: _secondaryAccent,
-      surface: AppColors.backgroundLight,
+      primary: _lightPrimary,
+      secondary: _lightSecondary,
+      surface: Colors.white,
+      onPrimary: Colors.white,
     ),
-    scaffoldBackgroundColor: AppColors.backgroundLight,
+    scaffoldBackgroundColor: Colors.white,
     textTheme: AppTextTheme.lightTextTheme,
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
@@ -32,7 +37,7 @@ class AppTheme {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: _primaryAccent,
+        backgroundColor: _lightPrimary,
         foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -40,28 +45,28 @@ class AppTheme {
       ),
     ),
     cardTheme: CardThemeData(
-      color: Colors.white,
+      color: const Color(0xFFF0F9FF), // sky-50
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: BorderSide(color: Colors.grey.shade200),
+        side: const BorderSide(color: Color(0xFFBAE6FD)), // sky-200
       ),
     ),
-    dividerTheme: DividerThemeData(color: Colors.grey.shade200),
+    dividerTheme: const DividerThemeData(color: Color(0xFFE0F2FE)), // sky-100
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: Colors.grey.shade100,
+      fillColor: const Color(0xFFF0F9FF), // sky-50
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: Colors.grey.shade300),
+        borderSide: const BorderSide(color: Color(0xFFBAE6FD)),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: Colors.grey.shade300),
+        borderSide: const BorderSide(color: Color(0xFFBAE6FD)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: _primaryAccent, width: 2),
+        borderSide: const BorderSide(color: _lightPrimary, width: 2),
       ),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
     ),

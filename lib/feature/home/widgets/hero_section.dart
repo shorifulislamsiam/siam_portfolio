@@ -9,6 +9,7 @@ import 'package:siam_portfolio/core/common/widgets/portfolio_social_button.dart'
 import 'package:siam_portfolio/core/utils/constants/app_strings.dart';
 import 'package:siam_portfolio/core/utils/constants/app_dimensions.dart';
 import 'package:siam_portfolio/core/utils/helpers/responsive_helper.dart';
+import 'package:siam_portfolio/core/utils/theme/app_theme_colors.dart';
 import 'package:siam_portfolio/feature/home/controllers/home_controller.dart';
 
 /// Hero Section — the first thing visitors see.
@@ -98,6 +99,9 @@ class _DesktopHeroContent extends GetView<HomeController> {
 class _ProfileAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primary   = AppThemeColors.primary(context);
+    final secondary = AppThemeColors.secondary(context);
     final size = ResponsiveHelper.isMobile(context)
         ? AppDimensions.profileImageSizeMobile
         : AppDimensions.profileImageSize;
@@ -107,14 +111,14 @@ class _ProfileAvatar extends StatelessWidget {
           height: size,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            gradient: const LinearGradient(
-              colors: [Color(0xFF818CF8), Color(0xFFA78BFA)],
+            gradient: LinearGradient(
+              colors: [primary, secondary],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF818CF8).withAlpha(60),
+                color: primary.withAlpha(60),
                 blurRadius: 40,
                 spreadRadius: 4,
                 offset: const Offset(0, 10),
@@ -127,9 +131,11 @@ class _ProfileAvatar extends StatelessWidget {
               children: [
                 // Placeholder when no image is provided
                 Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [Color(0xFF1E1F3A), Color(0xFF25233E)],
+                      colors: isDark
+                          ? [const Color(0xFF1E1F3A), const Color(0xFF25233E)]
+                          : [const Color(0xFFE0F2FE), const Color(0xFFBAE6FD)],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),
@@ -140,7 +146,7 @@ class _ProfileAvatar extends StatelessWidget {
                   style: GoogleFonts.outfit(
                     fontSize: size * 0.4,
                     fontWeight: FontWeight.w700,
-                    color: Colors.white.withAlpha(80),
+                    color: primary.withAlpha(80),
                   ),
                 ),
               ],
@@ -164,6 +170,8 @@ class _HeroText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primary   = AppThemeColors.primary(context);
+    final secondary = AppThemeColors.secondary(context);
     final align = centerAlign
         ? CrossAxisAlignment.center
         : CrossAxisAlignment.start;
@@ -177,7 +185,7 @@ class _HeroText extends StatelessWidget {
           'Hi there, I am 👋',
           style: GoogleFonts.inter(
             fontSize: 16,
-            color: const Color(0xFF818CF8),
+            color: primary,
             fontWeight: FontWeight.w500,
           ),
           textAlign: textAlign,
@@ -192,7 +200,7 @@ class _HeroText extends StatelessWidget {
           style: GoogleFonts.outfit(
             fontSize: ResponsiveHelper.isMobile(context) ? 36 : 52,
             fontWeight: FontWeight.w800,
-            color: Colors.white,
+            color: AppThemeColors.textMain(context),
             height: 1.1,
           ),
         ).animate(delay: 150.ms).fadeIn(duration: 500.ms).slideY(begin: 0.3),
@@ -204,7 +212,7 @@ class _HeroText extends StatelessWidget {
           style: GoogleFonts.outfit(
             fontSize: ResponsiveHelper.isMobile(context) ? 20 : 28,
             fontWeight: FontWeight.w600,
-            color: const Color(0xFFA78BFA),
+            color: secondary,
           ),
           child: AnimatedTextKit(
             repeatForever: true,
@@ -230,7 +238,7 @@ class _HeroText extends StatelessWidget {
             textAlign: textAlign,
             style: GoogleFonts.inter(
               fontSize: 15,
-              color: Colors.white.withAlpha(160),
+              color: AppThemeColors.textSubtle(context),
               height: 1.7,
             ),
           ),
@@ -304,27 +312,28 @@ class _SocialLinks extends GetView<HomeController> {
 class _LocationChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final primary = AppThemeColors.primary(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(
-        color: const Color(0xFF818CF8).withAlpha(20),
+        color: primary.withAlpha(20),
         borderRadius: BorderRadius.circular(AppDimensions.radiusFull),
-        border: Border.all(color: const Color(0xFF818CF8).withAlpha(50)),
+        border: Border.all(color: primary.withAlpha(50)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(
+          Icon(
             Icons.location_on_rounded,
             size: 14,
-            color: Color(0xFF818CF8),
+            color: primary,
           ),
           const SizedBox(width: 6),
           Text(
             AppStrings.location,
             style: GoogleFonts.inter(
               fontSize: 12,
-              color: const Color(0xFF818CF8),
+              color: primary,
             ),
           ),
         ],

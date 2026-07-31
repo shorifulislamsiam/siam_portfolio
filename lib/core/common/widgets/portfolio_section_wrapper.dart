@@ -26,7 +26,9 @@ class PortfolioSectionWrapper extends StatelessWidget {
     final hPad = ResponsiveHelper.sectionHPadding(context);
 
     return Container(
-      color: backgroundColor,
+      // If no explicit background is passed, use the scaffold default
+      // (which is already theme-aware: white in light, dark-navy in dark)
+      color: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
       width: double.infinity,
       padding: padding ??
           EdgeInsets.symmetric(

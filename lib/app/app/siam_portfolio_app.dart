@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:siam_portfolio/app/routes/app_routes.dart';
 import 'package:siam_portfolio/app/routes/app_string_routes.dart';
 import 'package:siam_portfolio/core/bindings/controller_binder.dart';
+import 'package:siam_portfolio/core/controllers/theme_controller.dart';
 import 'package:siam_portfolio/core/utils/theme/theme.dart';
 
 /// Root application widget.
@@ -12,18 +13,22 @@ class SiamPortfolioApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Siam | Flutter Developer',
-      initialBinding: ControllerBinder(),
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.dark,
-      initialRoute: AppStringRoutes.splash,
-      getPages: AppRoutes.pages,
-      unknownRoute: AppRoutes.notFoundPage,
-      defaultTransition: Transition.fadeIn,
-      transitionDuration: const Duration(milliseconds: 300),
+    final themeController = Get.find<ThemeController>();
+    return Obx(
+      () => GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Siam | Flutter Developer',
+        initialBinding: ControllerBinder(),
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: themeController.themeMode,
+        initialRoute: AppStringRoutes.splash,
+        getPages: AppRoutes.pages,
+        unknownRoute: AppRoutes.notFoundPage,
+        defaultTransition: Transition.fadeIn,
+        transitionDuration: const Duration(milliseconds: 300),
+      ),
     );
   }
 }
+

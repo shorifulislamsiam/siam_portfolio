@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:siam_portfolio/core/utils/constants/app_dimensions.dart';
+import 'package:siam_portfolio/core/utils/theme/app_theme_colors.dart';
 
 /// Primary CTA button with gradient background + hover scale animation.
 ///
@@ -33,6 +34,9 @@ class _PortfolioPrimaryButtonState extends State<PortfolioPrimaryButton> {
 
   @override
   Widget build(BuildContext context) {
+    final primary   = AppThemeColors.primary(context);
+    final secondary = AppThemeColors.secondary(context);
+
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       onEnter: (_) => setState(() => _hovered = true),
@@ -52,22 +56,19 @@ class _PortfolioPrimaryButtonState extends State<PortfolioPrimaryButton> {
             decoration: BoxDecoration(
               gradient: widget.isOutline
                   ? null
-                  : const LinearGradient(
-                      colors: [Color(0xFF818CF8), Color(0xFFA78BFA)],
+                  : LinearGradient(
+                      colors: [primary, secondary],
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
                     ),
               border: widget.isOutline
-                  ? Border.all(
-                      color: const Color(0xFF818CF8),
-                      width: 2,
-                    )
+                  ? Border.all(color: primary, width: 2)
                   : null,
               borderRadius: BorderRadius.circular(AppDimensions.radiusMd),
               boxShadow: _hovered && !widget.isOutline
                   ? [
                       BoxShadow(
-                        color: const Color(0xFF818CF8).withAlpha(80),
+                        color: primary.withAlpha(80),
                         blurRadius: 20,
                         offset: const Offset(0, 8),
                       ),
@@ -82,9 +83,7 @@ class _PortfolioPrimaryButtonState extends State<PortfolioPrimaryButton> {
                   Icon(
                     widget.icon,
                     size: AppDimensions.iconSm + 2,
-                    color: widget.isOutline
-                        ? const Color(0xFF818CF8)
-                        : Colors.white,
+                    color: widget.isOutline ? primary : Colors.white,
                   ),
                   const SizedBox(width: AppDimensions.spacingSm),
                 ],
@@ -95,9 +94,7 @@ class _PortfolioPrimaryButtonState extends State<PortfolioPrimaryButton> {
                     style: GoogleFonts.inter(
                       fontSize: 14,
                       fontWeight: FontWeight.w600,
-                      color: widget.isOutline
-                          ? const Color(0xFF818CF8)
-                          : Colors.white,
+                      color: widget.isOutline ? primary : Colors.white,
                     ),
                   ),
                 ),

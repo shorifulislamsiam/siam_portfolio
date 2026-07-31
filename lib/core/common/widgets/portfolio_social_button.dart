@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:siam_portfolio/core/utils/constants/app_dimensions.dart';
+import 'package:siam_portfolio/core/utils/theme/app_theme_colors.dart';
 
 /// Animated social icon button with hover effects.
 ///
@@ -32,7 +33,9 @@ class _PortfolioSocialButtonState extends State<PortfolioSocialButton> {
 
   @override
   Widget build(BuildContext context) {
-    const accent = Color(0xFF818CF8);
+    final accent = AppThemeColors.primary(context);
+    final effectiveColor = widget.color ?? accent;
+
     return Tooltip(
       message: widget.tooltip,
       child: MouseRegion(
@@ -51,7 +54,7 @@ class _PortfolioSocialButtonState extends State<PortfolioSocialButton> {
               border: Border.all(
                 color: _hovered
                     ? accent
-                    : (widget.color ?? accent).withAlpha(80),
+                    : effectiveColor.withAlpha(80),
                 width: 1.5,
               ),
             ),
@@ -60,7 +63,7 @@ class _PortfolioSocialButtonState extends State<PortfolioSocialButton> {
               size: widget.size,
               color: _hovered
                   ? accent
-                  : (widget.color ?? accent).withAlpha(180),
+                  : effectiveColor.withAlpha(180),
             ),
           ),
         ),

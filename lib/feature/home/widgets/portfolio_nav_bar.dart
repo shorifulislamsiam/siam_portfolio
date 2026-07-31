@@ -11,6 +11,7 @@ class PortfolioNavBar extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Obx(() {
       final scrolled = controller.isNavScrolled.value;
       return AnimatedContainer(
@@ -18,12 +19,16 @@ class PortfolioNavBar extends GetView<HomeController> {
         height: 70,
         decoration: BoxDecoration(
           color: scrolled
-              ? const Color(0xFF090818).withAlpha(230)
+              ? (isDark
+                  ? const Color(0xFF090818).withAlpha(230)
+                  : Colors.white.withAlpha(230))
               : Colors.transparent,
           border: scrolled
               ? Border(
                   bottom: BorderSide(
-                    color: const Color(0xFF818CF8).withAlpha(30),
+                    color: isDark
+                        ? const Color(0xFF818CF8).withAlpha(30)
+                        : const Color(0xFF0EA5E9).withAlpha(60),
                     width: 1,
                   ),
                 )
@@ -31,7 +36,7 @@ class PortfolioNavBar extends GetView<HomeController> {
           boxShadow: scrolled
               ? [
                   BoxShadow(
-                    color: Colors.black.withAlpha(60),
+                    color: Colors.black.withAlpha(isDark ? 60 : 20),
                     blurRadius: 20,
                     offset: const Offset(0, 4),
                   ),
@@ -87,6 +92,7 @@ class PortfolioNavBar extends GetView<HomeController> {
 class _Logo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Row(
       children: [
         Container(
@@ -94,8 +100,10 @@ class _Logo extends StatelessWidget {
           height: 38,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            gradient: const LinearGradient(
-              colors: [Color(0xFF818CF8), Color(0xFFA78BFA)],
+            gradient: LinearGradient(
+              colors: isDark
+                  ? [const Color(0xFF818CF8), const Color(0xFFA78BFA)]
+                  : [const Color(0xFF0EA5E9), const Color(0xFF38BDF8)],
             ),
           ),
           child: Center(
@@ -115,7 +123,7 @@ class _Logo extends StatelessWidget {
           style: GoogleFonts.outfit(
             fontSize: 20,
             fontWeight: FontWeight.w700,
-            color: Colors.white,
+            color: isDark ? Colors.white : const Color(0xFF0C4A6E),
           ),
         ),
       ],
@@ -167,7 +175,11 @@ class _HoverNavItemState extends State<_HoverNavItem> {
 
   @override
   Widget build(BuildContext context) {
-    const accent = Color(0xFF818CF8);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final accent = isDark ? const Color(0xFF818CF8) : const Color(0xFF0EA5E9);
+    final defaultTextColor = isDark
+        ? Colors.white.withAlpha(180)
+        : const Color(0xFF334155); // slate-700
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -188,7 +200,7 @@ class _HoverNavItemState extends State<_HoverNavItem> {
                       widget.isActive ? FontWeight.w600 : FontWeight.w400,
                   color: widget.isActive || _hovered
                       ? accent
-                      : Colors.white.withAlpha(180),
+                      : defaultTextColor,
                 ),
               ),
               const SizedBox(height: 4),
@@ -213,13 +225,14 @@ class _ThemeToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final accent = isDark ? const Color(0xFF818CF8) : const Color(0xFF0EA5E9);
     return IconButton(
       onPressed: () => Get.changeThemeMode(
         isDark ? ThemeMode.light : ThemeMode.dark,
       ),
       icon: Icon(
         isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
-        color: const Color(0xFF818CF8),
+        color: accent,
         size: 22,
       ),
       tooltip: isDark ? 'Light Mode' : 'Dark Mode',

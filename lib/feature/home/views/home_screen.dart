@@ -26,16 +26,20 @@ class HomeScreen extends GetView<HomeController> {
     final isDesktop = ResponsiveHelper.isDesktopOrLarger(context);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF090818),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       drawer: isDesktop ? null : const PortfolioDrawer(),
 
       // Floating nav bar for desktop
       appBar: isDesktop
           ? null
           : AppBar(
-              backgroundColor: const Color(0xFF090818),
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
               elevation: 0,
-              iconTheme: const IconThemeData(color: Color(0xFF818CF8)),
+              iconTheme: IconThemeData(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? const Color(0xFF818CF8)
+                    : const Color(0xFF0EA5E9),
+              ),
               title: Row(
                 children: [
                   Container(
@@ -59,10 +63,12 @@ class HomeScreen extends GetView<HomeController> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  const Text(
+                  Text(
                     'Siam',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : const Color(0xFF0C4A6E),
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                     ),

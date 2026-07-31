@@ -10,8 +10,9 @@ class PortfolioDrawer extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Drawer(
-      backgroundColor: const Color(0xFF0F0F1E),
+      backgroundColor: isDark ? const Color(0xFF0F0F1E) : Colors.white,
       width: 280,
       child: Column(
         children: [
@@ -19,9 +20,11 @@ class PortfolioDrawer extends GetView<HomeController> {
           Container(
             height: 180,
             width: double.infinity,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF818CF8), Color(0xFFA78BFA)],
+                colors: isDark
+                    ? [const Color(0xFF818CF8), const Color(0xFFA78BFA)]
+                    : [const Color(0xFF0EA5E9), const Color(0xFF38BDF8)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -80,25 +83,25 @@ class PortfolioDrawer extends GetView<HomeController> {
           ),
 
           // Theme toggle pinned at bottom
-          const Divider(color: Colors.white12, height: 1),
+          Divider(
+            color: isDark ? Colors.white12 : const Color(0xFFE0F2FE),
+            height: 1,
+          ),
           ListTile(
             leading: Icon(
-              Theme.of(context).brightness == Brightness.dark
-                  ? Icons.light_mode_rounded
-                  : Icons.dark_mode_rounded,
-              color: const Color(0xFF818CF8),
+              isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+              color: isDark ? const Color(0xFF818CF8) : const Color(0xFF0EA5E9),
             ),
             title: Text(
-              Theme.of(context).brightness == Brightness.dark
-                  ? 'Light Mode'
-                  : 'Dark Mode',
+              isDark ? 'Light Mode' : 'Dark Mode',
               style: GoogleFonts.inter(
-                color: Colors.white.withAlpha(180),
+                color: isDark
+                    ? Colors.white.withAlpha(180)
+                    : const Color(0xFF334155),
                 fontSize: 14,
               ),
             ),
             onTap: () {
-              final isDark = Theme.of(context).brightness == Brightness.dark;
               Get.changeThemeMode(isDark ? ThemeMode.light : ThemeMode.dark);
             },
           ),
@@ -109,6 +112,11 @@ class PortfolioDrawer extends GetView<HomeController> {
   }
 
   List<Widget> _buildNavItems(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final activeColor = isDark ? const Color(0xFF818CF8) : const Color(0xFF0EA5E9);
+    final inactiveIconColor = isDark ? Colors.white.withAlpha(120) : const Color(0xFF64748B);
+    final inactiveTextColor = isDark ? Colors.white.withAlpha(180) : const Color(0xFF334155);
+
     final items = [
       (Icons.home_rounded, 'Home', controller.heroKey, 0),
       (Icons.person_rounded, 'About', controller.aboutKey, 1),
@@ -128,8 +136,8 @@ class PortfolioDrawer extends GetView<HomeController> {
               leading: Icon(
                 item.$1,
                 color: controller.activeNavIndex.value == item.$4
-                    ? const Color(0xFF818CF8)
-                    : Colors.white.withAlpha(120),
+                    ? activeColor
+                    : inactiveIconColor,
                 size: 20,
               ),
               title: Text(
@@ -140,8 +148,8 @@ class PortfolioDrawer extends GetView<HomeController> {
                       ? FontWeight.w600
                       : FontWeight.w400,
                   color: controller.activeNavIndex.value == item.$4
-                      ? const Color(0xFF818CF8)
-                      : Colors.white.withAlpha(180),
+                      ? activeColor
+                      : inactiveTextColor,
                 ),
               ),
               onTap: () {

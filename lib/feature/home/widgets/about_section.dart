@@ -6,6 +6,7 @@ import 'package:siam_portfolio/core/common/widgets/portfolio_section_title.dart'
 import 'package:siam_portfolio/core/common/widgets/portfolio_section_wrapper.dart';
 import 'package:siam_portfolio/core/utils/constants/app_strings.dart';
 import 'package:siam_portfolio/core/utils/helpers/responsive_helper.dart';
+import 'package:siam_portfolio/core/utils/theme/app_theme_colors.dart';
 import 'package:siam_portfolio/feature/home/controllers/home_controller.dart';
 
 /// About Me section — career summary, personal info, and mission statement.
@@ -15,7 +16,7 @@ class AboutSection extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return PortfolioSectionWrapper(
-      backgroundColor: const Color(0xFF0A0A1A),
+      backgroundColor: AppThemeColors.altBg(context),
       child: Column(
         children: [
           const PortfolioSectionTitle(title: 'About Me', subtitle: 'Who I Am'),
@@ -62,7 +63,7 @@ class _AboutText extends StatelessWidget {
           AppStrings.about,
           style: GoogleFonts.inter(
             fontSize: 16,
-            color: Colors.white.withAlpha(180),
+            color: AppThemeColors.textSubtle(context),
             height: 1.8,
           ),
         ).animate().fadeIn(duration: 700.ms),
@@ -73,7 +74,7 @@ class _AboutText extends StatelessWidget {
           'well-documented, and follows SOLID principles.',
           style: GoogleFonts.inter(
             fontSize: 15,
-            color: Colors.white.withAlpha(140),
+            color: AppThemeColors.textHint(context),
             height: 1.8,
           ),
         ).animate(delay: 200.ms).fadeIn(duration: 700.ms),
@@ -163,13 +164,14 @@ class _InfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primary = AppThemeColors.primary(context);
     return Container(
           width: 200,
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: const Color(0xFF1E1F3A).withAlpha(80),
+            color: AppThemeColors.cardBg(context).withAlpha(80),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFF818CF8).withAlpha(30)),
+            border: Border.all(color: primary.withAlpha(30)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -179,7 +181,7 @@ class _InfoCard extends StatelessWidget {
                 style: GoogleFonts.inter(
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
-                  color: const Color(0xFF818CF8),
+                  color: primary,
                   letterSpacing: 1.5,
                 ),
               ),
@@ -189,7 +191,7 @@ class _InfoCard extends StatelessWidget {
                 style: GoogleFonts.inter(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
-                  color: Colors.white.withAlpha(200),
+                  color: AppThemeColors.textSubtle(context),
                 ),
               ),
             ],

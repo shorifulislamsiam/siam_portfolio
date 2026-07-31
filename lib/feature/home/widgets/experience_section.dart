@@ -6,6 +6,7 @@ import 'package:siam_portfolio/core/common/widgets/portfolio_section_title.dart'
 import 'package:siam_portfolio/core/common/widgets/portfolio_section_wrapper.dart';
 import 'package:siam_portfolio/core/models/experience_model.dart';
 import 'package:siam_portfolio/core/utils/constants/app_dimensions.dart';
+import 'package:siam_portfolio/core/utils/theme/app_theme_colors.dart';
 import 'package:siam_portfolio/feature/home/controllers/home_controller.dart';
 
 /// Work experience section with vertical timeline.
@@ -48,6 +49,7 @@ class _TimelineCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primary = AppThemeColors.primary(context);
     return Stack(
       children: [
         // Timeline line drawn behind the content
@@ -58,7 +60,7 @@ class _TimelineCard extends StatelessWidget {
             bottom: 0,
             child: Container(
               width: AppDimensions.timelineLineWidth,
-              color: const Color(0xFF818CF8).withAlpha(40),
+              color: primary.withAlpha(40),
             ),
           ),
         // Main row content
@@ -76,10 +78,10 @@ class _TimelineCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: experience.isCurrent
-                        ? const Color(0xFF818CF8)
-                        : const Color(0xFF818CF8).withAlpha(100),
+                        ? primary
+                        : primary.withAlpha(100),
                     border: Border.all(
-                      color: const Color(0xFF818CF8),
+                      color: primary,
                       width: 2,
                     ),
                   ),
@@ -97,11 +99,11 @@ class _TimelineCard extends StatelessWidget {
                   padding: const EdgeInsets.all(AppDimensions.cardPadding),
                   margin: const EdgeInsets.only(bottom: 4),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1E1F3A).withAlpha(60),
+                    color: AppThemeColors.cardBg(context).withAlpha(60),
                     borderRadius:
                         BorderRadius.circular(AppDimensions.cardRadius),
                     border: Border.all(
-                      color: const Color(0xFF818CF8).withAlpha(30),
+                      color: primary.withAlpha(30),
                     ),
                   ),
                   child: Column(
@@ -119,7 +121,7 @@ class _TimelineCard extends StatelessWidget {
                             style: GoogleFonts.outfit(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
-                              color: Colors.white,
+                              color: AppThemeColors.textMain(context),
                             ),
                           ),
                           if (experience.isCurrent)
@@ -150,7 +152,7 @@ class _TimelineCard extends StatelessWidget {
                         experience.company,
                         style: GoogleFonts.inter(
                           fontSize: 14,
-                          color: const Color(0xFF818CF8),
+                          color: primary,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -159,7 +161,7 @@ class _TimelineCard extends StatelessWidget {
                         experience.duration,
                         style: GoogleFonts.inter(
                           fontSize: 12,
-                          color: Colors.white.withAlpha(100),
+                          color: AppThemeColors.textHint(context),
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -167,7 +169,7 @@ class _TimelineCard extends StatelessWidget {
                         experience.description,
                         style: GoogleFonts.inter(
                           fontSize: 14,
-                          color: Colors.white.withAlpha(160),
+                          color: AppThemeColors.textSubtle(context),
                           height: 1.7,
                         ),
                       ),
@@ -202,18 +204,19 @@ class _TechChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primary = AppThemeColors.primary(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: const Color(0xFF818CF8).withAlpha(20),
+        color: primary.withAlpha(20),
         borderRadius: BorderRadius.circular(100),
-        border: Border.all(color: const Color(0xFF818CF8).withAlpha(50)),
+        border: Border.all(color: primary.withAlpha(50)),
       ),
       child: Text(
         label,
         style: GoogleFonts.inter(
           fontSize: 11,
-          color: const Color(0xFF818CF8),
+          color: primary,
           fontWeight: FontWeight.w500,
         ),
       ),
