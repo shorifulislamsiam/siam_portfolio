@@ -125,7 +125,10 @@ class HomeController extends GetxController {
   Future<void> launchURL(String url) async {
     final uri = Uri.parse(url);
     try {
-      bool launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      bool launched = await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
+      );
       if (!launched) {
         launched = await launchUrl(uri);
       }
@@ -199,6 +202,18 @@ class HomeController extends GetxController {
     ),
     const ProjectModel(
       id: '2',
+      title: 'Travel Nova',
+      description:
+          'A travel app for travelers to plan their trips and explore new '
+          'destinations, and also share their travel experiences with others(As like social media).',
+      imageUrl: '',
+      technologies: ['Flutter', 'GetX', 'REST API'],
+      //githubUrl: 'https://github.com/siam',
+      category: 'Web',
+      liveDemoUrl: 'https://apps.apple.com/us/app/travelnova/id6759184597',
+    ),
+    const ProjectModel(
+      id: '3',
       title: 'Book Share',
       description:
           'A app for sharing books with friends and Others. Built with Flutter and GetX.',
@@ -210,7 +225,7 @@ class HomeController extends GetxController {
       category: 'Mobile',
     ),
     const ProjectModel(
-      id: '3',
+      id: '4',
       title: 'Portfolio Website',
       description:
           'This portfolio — a fully responsive Flutter web app with animated '
@@ -223,28 +238,29 @@ class HomeController extends GetxController {
       isFeatured: true,
     ),
     const ProjectModel(
-      id: '4',
+      id: '5',
       title: 'MonsterConfusion (OnGoing)',
       description:
           'A trainer app for gym lovers to track their workout and fitness goals.',
       imageUrl: '',
       technologies: ['Flutter', 'Firebase', 'GetX', "Stripe"],
       liveDemoUrl:
-          "https://drive.google.com/file/d/1QVwwpKfw12jXVDtCXbkCgItWnLLFOHI8/view?usp=drive_link",
+          "https://drive.google.com/file/d/1t-iHI8adAGfuzWmxzf5-yQ0f0QlYEMGK/view?usp=sharing",
       // githubUrl: 'https://github.com/siam',
       category: 'Mobile',
     ),
     const ProjectModel(
-      id: '5',
+      id: '6',
       title: 'OnTheBite Fishing (OnGoing)',
       description:
           'A fishing app for anglers to track their catch and fishing trips.Specially for Gulf of Mexico clients. ',
       imageUrl: '',
-      technologies: ['Flutter', 'Google Maps', 'REST API', "Mapbox"],
+      technologies: ['Flutter', 'REST API', "Mapbox"],
       //githubUrl: 'https://github.com/siam',
       category: 'Mobile',
       isFeatured: true,
     ),
+
     // const ProjectModel(
     //   id: '6',
     //   title: 'Admin Dashboard',

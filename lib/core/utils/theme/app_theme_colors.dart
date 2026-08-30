@@ -16,6 +16,7 @@ class AppThemeColors {
   // Light mode accents (sky / ocean blue)
   static const Color lightPrimary   = Color(0xFF0EA5E9);
   static const Color lightSecondary = Color(0xFF38BDF8);
+  static const Color lightFirst = Color.fromARGB(255, 208, 237, 252);
   static const Color lightBg        = Color(0xFFFFFFFF);
   static const Color lightCard      = Color(0xFFF0F9FF); // sky-50
   static const Color lightAlt       = Color(0xFFE0F2FE); // sky-100
@@ -31,7 +32,7 @@ class AppThemeColors {
 
   /// Card / container background
   static Color cardBg(BuildContext context) =>
-      _isDark(context) ? darkCard : lightCard;
+      _isDark(context) ? darkCard : lightFirst;
 
   /// Alternate section background
   static Color altBg(BuildContext context) =>
