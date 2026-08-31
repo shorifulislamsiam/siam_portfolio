@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:siam_portfolio/core/models/project_model.dart';
@@ -125,10 +126,11 @@ class HomeController extends GetxController {
   Future<void> launchURL(String url) async {
     final uri = Uri.parse(url);
     try {
-      bool launched = await launchUrl(
-        uri,
-        mode: LaunchMode.externalApplication,
-      );
+      // Web-এ externalApplication mode browser popup blocker দিয়ে block হয়,
+      // তাই web-এ platformDefault (window.open / same tab) use করা হচ্ছে।
+      final mode =
+          kIsWeb ? LaunchMode.platformDefault : LaunchMode.externalApplication;
+      bool launched = await launchUrl(uri, mode: mode);
       if (!launched) {
         launched = await launchUrl(uri);
       }
