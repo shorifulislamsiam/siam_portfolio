@@ -194,11 +194,12 @@ class ProjectDetailScreen extends GetView<ProjectDetailController> {
   Future<void> _launch(String url) async {
     final uri = Uri.parse(url);
     try {
-      // Web-এ externalApplication mode browser popup blocker দিয়ে block হয়,
-      // তাই web-এ platformDefault use করা হচ্ছে।
-      final mode =
-          kIsWeb ? LaunchMode.platformDefault : LaunchMode.externalApplication;
-      await launchUrl(uri, mode: mode);
+      if (kIsWeb) {
+        // Web-এ নতুন tab-এ খুলতে webOnlyWindowName: '_blank' use করতে হবে।
+        await launchUrl(uri, webOnlyWindowName: '_blank');
+      } else {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      }
     } catch (e) {
       debugPrint('Could not launch $url: $e');
     }
