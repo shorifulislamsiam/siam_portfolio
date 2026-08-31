@@ -126,16 +126,21 @@ class HomeController extends GetxController {
   Future<void> launchURL(String url) async {
     final uri = Uri.parse(url);
     try {
-      // Web-এ externalApplication mode browser popup blocker দিয়ে block হয়,
-      // তাই web-এ platformDefault (window.open / same tab) use করা হচ্ছে।
-      final mode =
-          kIsWeb ? LaunchMode.platformDefault : LaunchMode.externalApplication;
-      bool launched = await launchUrl(uri, mode: mode);
-      if (!launched) {
-        launched = await launchUrl(uri);
-      }
-      if (!launched && url.startsWith('mailto:')) {
-        scrollToSection(contactKey, 6);
+      if (kIsWeb) {
+        // Web-এ নতুন tab-এ খুলতে webOnlyWindowName: '_blank' use করতে হবে।
+        // platformDefault same tab-এ খোলে যা ফ্লাতার app রিপ্লেস করে দেয়।
+        await launchUrl(uri, webOnlyWindowName: '_blank');
+      } else {
+        bool launched = await launchUrl(
+          uri,
+          mode: LaunchMode.externalApplication,
+        );
+        if (!launched) {
+          launched = await launchUrl(uri);
+        }
+        if (!launched && url.startsWith('mailto:')) {
+          scrollToSection(contactKey, 6);
+        }
       }
     } catch (e) {
       debugPrint('Could not launch $url: $e');
