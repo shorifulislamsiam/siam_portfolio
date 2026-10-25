@@ -167,19 +167,31 @@ class ProjectDetailScreen extends GetView<ProjectDetailController> {
                   spacing: 16,
                   runSpacing: 12,
                   children: [
-                    if (project.githubUrl != null)
+                    if (project.githubUrl != null &&
+                        project.githubUrl!.trim().isNotEmpty)
                       PortfolioPrimaryButton(
                         label: AppStrings.sourceCode,
                         icon: Icons.code_rounded,
                         isOutline: true,
-                        onTap: () => _launch(project.githubUrl!),
+                        onTap: () => _launch(project.githubUrl!.trim()),
                       ),
-                    if (project.liveDemoUrl != null &&
-                        project.liveDemoUrl!.isNotEmpty)
+                    if (project.resolvedAppStoreUrl != null)
+                      PortfolioPrimaryButton(
+                        label: AppStrings.appStore,
+                        icon: Icons.apple,
+                        onTap: () => _launch(project.resolvedAppStoreUrl!),
+                      ),
+                    if (project.resolvedPlayStoreUrl != null)
+                      PortfolioPrimaryButton(
+                        label: AppStrings.playStore,
+                        icon: Icons.android_rounded,
+                        onTap: () => _launch(project.resolvedPlayStoreUrl!),
+                      ),
+                    if (project.resolvedLiveDemoUrl != null)
                       PortfolioPrimaryButton(
                         label: AppStrings.liveDemo,
                         icon: Icons.open_in_new_rounded,
-                        onTap: () => _launch(project.liveDemoUrl!),
+                        onTap: () => _launch(project.resolvedLiveDemoUrl!),
                       ),
                   ],
                 ).animate(delay: 600.ms).fadeIn(),

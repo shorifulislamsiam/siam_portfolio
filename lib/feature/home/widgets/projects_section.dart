@@ -69,7 +69,7 @@ class ProjectsSection extends GetView<HomeController> {
                     (i) => SizedBox(
                       width: cardWidth,
                       // On wider screens, fix height so all cards match
-                      height: isMobile ? null : 480,
+                      height: isMobile ? null : 500,
                       child: _ProjectCard(
                         project: projects[i],
                         delay: i * 80,
@@ -175,11 +175,13 @@ class _HoverProjectCardState extends State<_HoverProjectCard> {
 
   bool get _hasGithub =>
       widget.project.githubUrl != null &&
-      widget.project.githubUrl!.isNotEmpty;
+      widget.project.githubUrl!.trim().isNotEmpty;
 
-  bool get _hasLiveDemo =>
-      widget.project.liveDemoUrl != null &&
-      widget.project.liveDemoUrl!.isNotEmpty;
+  bool get _hasAppStore => widget.project.resolvedAppStoreUrl != null;
+
+  bool get _hasPlayStore => widget.project.resolvedPlayStoreUrl != null;
+
+  bool get _hasLiveDemo => widget.project.resolvedLiveDemoUrl != null;
 
   @override
   Widget build(BuildContext context) {
@@ -323,28 +325,48 @@ class _HoverProjectCardState extends State<_HoverProjectCard> {
             // Push buttons to bottom when equal height
             if (equalHeight) const Spacer(),
 
-            // Buttons — only rendered when URLs exist
-            if (_hasGithub || _hasLiveDemo) ...[
+            // Action buttons — only rendered when URLs exist
+            if (_hasGithub || _hasAppStore || _hasPlayStore || _hasLiveDemo) ...[
               const SizedBox(height: 16),
-              if (_hasGithub)
-                PortfolioPrimaryButton(
-                  label: AppStrings.sourceCode,
-                  icon: Icons.code_rounded,
-                  isOutline: true,
-                  onTap: () => widget.controller.launchURL(
-                    widget.project.githubUrl!,
-                  ),
-                ),
-              if (_hasGithub && _hasLiveDemo)
-                const SizedBox(height: 8),
-              if (_hasLiveDemo)
-                PortfolioPrimaryButton(
-                  label: AppStrings.liveDemo,
-                  icon: Icons.open_in_new_rounded,
-                  onTap: () => widget.controller.launchURL(
-                    widget.project.liveDemoUrl!,
-                  ),
-                ),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  if (_hasGithub)
+                    PortfolioPrimaryButton(
+                      label: AppStrings.sourceCode,
+                      icon: Icons.code_rounded,
+                      isOutline: true,
+                      onTap: () => widget.controller.launchURL(
+                        widget.project.githubUrl!.trim(),
+                      ),
+                    ),
+                  if (_hasAppStore)
+                    PortfolioPrimaryButton(
+                      label: AppStrings.appStore,
+                      icon: Icons.apple,
+                      onTap: () => widget.controller.launchURL(
+                        widget.project.resolvedAppStoreUrl!,
+                      ),
+                    ),
+                  if (_hasPlayStore)
+                    PortfolioPrimaryButton(
+                      label: AppStrings.playStore,
+                      icon: Icons.android_rounded,
+                      onTap: () => widget.controller.launchURL(
+                        widget.project.resolvedPlayStoreUrl!,
+                      ),
+                    ),
+                  if (_hasLiveDemo)
+                    PortfolioPrimaryButton(
+                      label: AppStrings.liveDemo,
+                      icon: Icons.open_in_new_rounded,
+                      onTap: () => widget.controller.launchURL(
+                        widget.project.resolvedLiveDemoUrl!,
+                      ),
+                    ),
+                ],
+              ),
             ],
           ],
         ),

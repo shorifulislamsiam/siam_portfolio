@@ -75,6 +75,8 @@ class AppStrings {
   static const String hireMe = 'Hire Me';
   static const String viewProject = 'View Project';
   static const String liveDemo = 'Live Demo';
+  static const String appStore = 'App Store';
+  static const String playStore = 'Play Store';
   static const String sourceCode = 'Source Code';
   static const String sendMessage = 'Send Message';
   static const String backToTop = 'Back to Top';

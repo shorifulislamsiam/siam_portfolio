@@ -202,7 +202,7 @@ class HomeController extends GetxController {
       imageUrl: '',
       technologies: ['Flutter', 'GetX', 'Firebase', 'Stripe', "AI Chatbot"],
       githubUrl: '',
-      liveDemoUrl:
+      playStoreUrl:
           'https://play.google.com/store/search?q=Navelle%20Health&c=apps&hl=en',
       category: 'Mobile',
       isFeatured: true,
@@ -217,7 +217,7 @@ class HomeController extends GetxController {
       technologies: ['Flutter', 'GetX', 'REST API'],
       //githubUrl: 'https://github.com/siam',
       category: 'Web',
-      liveDemoUrl: 'https://apps.apple.com/us/app/travelnova/id6759184597',
+      appStoreUrl: 'https://apps.apple.com/us/app/travelnova/id6759184597',
     ),
     const ProjectModel(
       id: '3',
@@ -240,7 +240,6 @@ class HomeController extends GetxController {
       imageUrl: '',
       technologies: ['Flutter', 'GetX', 'Flutter Animate'],
       // githubUrl: 'https://github.com/siam',
-      liveDemoUrl: '',
       category: 'Web',
       isFeatured: true,
     ),
@@ -263,6 +262,9 @@ class HomeController extends GetxController {
           'A fishing app for anglers to track their catch and fishing trips.Specially for Gulf of Mexico clients. ',
       imageUrl: '',
       technologies: ['Flutter', 'REST API', "Mapbox"],
+      appStoreUrl: 'https://apps.apple.com/app/on-the-bite/id6793854464',
+      playStoreUrl:
+          'https://play.google.com/store/apps/details?id=com.onthebite.app&hl=en',
       //githubUrl: 'https://github.com/siam',
       category: 'Mobile',
       isFeatured: true,
